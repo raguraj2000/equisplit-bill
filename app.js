@@ -1,6 +1,6 @@
 /**
- * EquiSplit — World-Class Award Winning JS Application Logic
- * Full Editing Capabilities: Group Settings, Member Renaming, Expense Management, Mark as Settled
+ * EquiSplit — World-Class Award Winning Application Engine
+ * Trillion Dollar Production-Grade Net Balances Render & State Logic
  */
 
 class SplitBillApp {
@@ -19,38 +19,38 @@ class SplitBillApp {
 
   getDefaultState() {
     return {
-      groupName: 'Goa Weekend Trip',
+      groupName: 'Goa Weekend Trip 🏖️',
       currency: '₹',
       theme: 'dark',
-      members: ['Rahul', 'Priya', 'Amit', 'Sneha'],
+      members: ['Rohan', 'Ananya', 'Karan', 'Pooja', 'Vikram'],
       expenses: [
         {
-          id: 'exp_1',
+          id: 'exp_g1',
           description: 'Beach Resort Villa (3 Nights)',
-          amount: 12000,
-          payer: 'Rahul',
+          amount: 15000,
+          payer: 'Rohan',
           date: new Date(Date.now() - 172800000).toISOString(),
           splitType: 'equal',
-          splits: { Rahul: 3000, Priya: 3000, Amit: 3000, Sneha: 3000 }
+          splits: { Rohan: 3000, Ananya: 3000, Karan: 3000, Pooja: 3000, Vikram: 3000 }
         },
         {
-          id: 'exp_2',
-          description: 'Friday Night Seafood & Cocktails',
-          amount: 4800,
-          payer: 'Priya',
+          id: 'exp_g2',
+          description: 'Scooter Rental & Fuel',
+          amount: 2500,
+          payer: 'Karan',
           date: new Date(Date.now() - 86400000).toISOString(),
           splitType: 'equal',
-          splits: { Rahul: 1200, Priya: 1200, Amit: 1200, Sneha: 1200 }
+          splits: { Rohan: 500, Ananya: 500, Karan: 500, Pooja: 500, Vikram: 500 }
         },
         {
-          id: 'exp_3',
-          description: 'Craft Beers (Amit & Rahul only)',
-          amount: 1500,
-          payer: 'Amit',
-          date: new Date().toISOString(),
+          id: 'exp_g3',
+          description: 'Thalassa Dinner & Drinks',
+          amount: 8400,
+          payer: 'Ananya',
+          date: new Date(Date.now() - 43200000).toISOString(),
           splitType: 'exclude',
-          excludedMembers: ['Priya', 'Sneha'],
-          splits: { Rahul: 750, Amit: 750, Priya: 0, Sneha: 0 }
+          excludedMembers: ['Pooja'],
+          splits: { Rohan: 2100, Ananya: 2100, Karan: 2100, Pooja: 0, Vikram: 2100 }
         }
       ]
     };
@@ -205,7 +205,7 @@ class SplitBillApp {
     });
   }
 
-  /* Member Editing & Management */
+  /* Member Editing */
   addMember(name) {
     if (this.state.members.includes(name)) {
       this.showToast(`${name} is already in the group!`);
@@ -248,11 +248,9 @@ class SplitBillApp {
       return;
     }
 
-    // Update member list
     const idx = this.state.members.indexOf(oldName);
     if (idx !== -1) this.state.members[idx] = newName;
 
-    // Update all expense references
     this.state.expenses.forEach(exp => {
       if (exp.payer === oldName) exp.payer = newName;
       if (exp.splits && exp.splits[oldName] !== undefined) {
@@ -285,7 +283,7 @@ class SplitBillApp {
     this.showToast(`Removed ${name}`);
   }
 
-  /* Group Settings Editing */
+  /* Group Settings */
   openGroupModal() {
     document.getElementById('groupNameInput').value = this.state.groupName || 'Goa Weekend Trip';
     document.getElementById('groupCurrencyInput').value = this.state.currency || '₹';
@@ -309,7 +307,7 @@ class SplitBillApp {
     this.showToast('Group settings updated');
   }
 
-  /* Core Calculation Engine & Greedy Debt Reduction */
+  /* Calculations */
   calculateBalances() {
     const balances = {};
     this.state.members.forEach(m => balances[m] = 0);
@@ -379,7 +377,6 @@ class SplitBillApp {
   }
 
   markAsSettled(from, to, amount) {
-    // Add a settlement expense entry to balance out the debt
     const settlementExp = {
       id: 'exp_settle_' + Date.now(),
       description: `Payment: ${from} ➡️ ${to}`,
@@ -468,7 +465,7 @@ class SplitBillApp {
     this.showToast(`Loaded Preset: "${this.state.groupName}"`);
   }
 
-  /* Expense Modal Logic */
+  /* Expense Modal */
   openExpenseModal(expenseToEdit = null) {
     const modal = document.getElementById('expenseModal');
     const title = document.getElementById('modalTitle');
@@ -683,7 +680,7 @@ class SplitBillApp {
     window.open(`https://wa.me/?text=${encoded}`, '_blank');
   }
 
-  /* Render Logic */
+  /* Main Render Routine */
   render() {
     this.renderSummaryHero();
     this.renderPeopleList();
@@ -701,7 +698,6 @@ class SplitBillApp {
     document.getElementById('avgSpentStat').innerText = `${this.state.currency}${Math.round(avgPerPerson).toLocaleString('en-IN')}`;
     document.getElementById('totalExpensesStat').innerText = this.state.expenses.length;
 
-    // Render Spend Distribution Bar
     this.renderSpendDistributionBar(totalSpent);
   }
 
@@ -722,7 +718,7 @@ class SplitBillApp {
       }
     });
 
-    const colors = ['#007AFF', '#34C759', '#FF9500', '#AF52DE', '#FF3B30', '#5856D6'];
+    const colors = ['#007AFF', '#30D158', '#FF9F0A', '#AF52DE', '#FF453A', '#5856D6'];
 
     track.innerHTML = this.state.members.map((m, idx) => {
       const pct = ((paidByMember[m] / totalSpent) * 100).toFixed(1);
@@ -770,31 +766,85 @@ class SplitBillApp {
     }
   }
 
+  /**
+   * TRILLION-DOLLAR PRODUCTION-GRADE FINTECH CARD RENDER ROUTINE
+   */
   renderBalancesList() {
     const balances = this.calculateBalances();
     const container = document.getElementById('balancesList');
     if (!container) return;
 
-    container.innerHTML = Object.entries(balances).map(([name, val]) => {
+    // Calculate total paid & total share breakdown per member
+    const paidByMember = {};
+    const shareByMember = {};
+    this.state.members.forEach(m => {
+      paidByMember[m] = 0;
+      shareByMember[m] = 0;
+    });
+
+    this.state.expenses.forEach(exp => {
+      const payer = exp.payer;
+      const amt = parseFloat(exp.amount) || 0;
+      if (paidByMember[payer] !== undefined) {
+        paidByMember[payer] += amt;
+      }
+      if (exp.splits) {
+        Object.entries(exp.splits).forEach(([m, share]) => {
+          if (shareByMember[m] !== undefined) {
+            shareByMember[m] += parseFloat(share) || 0;
+          }
+        });
+      }
+    });
+
+    const gradients = [
+      'linear-gradient(135deg, #007AFF, #5856D6)',
+      'linear-gradient(135deg, #30D158, #28CD41)',
+      'linear-gradient(135deg, #FF9F0A, #FFB340)',
+      'linear-gradient(135deg, #AF52DE, #BF5AF2)',
+      'linear-gradient(135deg, #FF453A, #FF6961)'
+    ];
+
+    container.className = 'balance-card-grid';
+    container.innerHTML = Object.entries(balances).map(([name, val], idx) => {
       const rounded = Math.round(val * 100) / 100;
-      let statusClass = 'neutral';
-      let text = 'Settled up';
+      const paid = Math.round((paidByMember[name] || 0) * 100) / 100;
+      const share = Math.round((shareByMember[name] || 0) * 100) / 100;
+      const grad = gradients[idx % gradients.length];
       
+      let cardClass = 'is-neutral';
+      let badgeClass = 'neutral';
+      let badgeText = `Settled (${this.state.currency}0.00)`;
+
       if (rounded > 0.01) {
-        statusClass = 'positive';
-        text = `gets back ${this.state.currency}${rounded.toLocaleString('en-IN')}`;
+        cardClass = 'is-positive';
+        badgeClass = 'positive';
+        badgeText = `Gets back +${this.state.currency}${rounded.toLocaleString('en-IN')}`;
       } else if (rounded < -0.01) {
-        statusClass = 'negative';
-        text = `owes ${this.state.currency}${Math.abs(rounded).toLocaleString('en-IN')}`;
+        cardClass = 'is-negative';
+        badgeClass = 'negative';
+        badgeText = `Owes -${this.state.currency}${Math.abs(rounded).toLocaleString('en-IN')}`;
       }
 
       return `
-        <div class="settlement-card">
-          <div class="flow-user">
-            <div class="avatar">${name[0].toUpperCase()}</div>
-            <span>${name}</span>
+        <div class="fintech-balance-card ${cardClass}">
+          <div class="fintech-left">
+            <div class="fintech-avatar-ring" style="background:${grad};">
+              ${name[0].toUpperCase()}
+            </div>
+            <div class="fintech-info">
+              <div class="fintech-name">${name}</div>
+              <div class="fintech-subtext">
+                Paid ${this.state.currency}${paid.toLocaleString('en-IN')} • Share ${this.state.currency}${share.toLocaleString('en-IN')}
+              </div>
+            </div>
           </div>
-          <div class="stat-val ${statusClass}" style="font-size:0.95rem;">${text}</div>
+          <div class="fintech-right">
+            <div class="fintech-badge ${badgeClass}">
+              <span class="fintech-dot"></span>
+              <span>${badgeText}</span>
+            </div>
+          </div>
         </div>
       `;
     }).join('');
@@ -854,12 +904,12 @@ class SplitBillApp {
       <div class="settlement-card">
         <div class="debt-flow">
           <div class="flow-user">
-            <div class="avatar" style="background:linear-gradient(135deg, #FF9500, #FF3B30);">${s.from[0].toUpperCase()}</div>
+            <div class="avatar" style="background:linear-gradient(135deg, #FF9F0A, #FF453A);">${s.from[0].toUpperCase()}</div>
             <span>${s.from}</span>
           </div>
           <div class="flow-arrow">➡️</div>
           <div class="flow-user">
-            <div class="avatar" style="background:linear-gradient(135deg, #34C759, #30D158);">${s.to[0].toUpperCase()}</div>
+            <div class="avatar" style="background:linear-gradient(135deg, #30D158, #28CD41);">${s.to[0].toUpperCase()}</div>
             <span>${s.to}</span>
           </div>
         </div>
