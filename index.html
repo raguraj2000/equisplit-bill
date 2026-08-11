@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EquiSplit — Split Bills Effortlessly</title>
-  <meta name="description" content="Ultra-premium, mobile-first bill splitting app designed for Indian everyday expenses. Smart debt simplification, uneven splits, and instant UPI payment links.">
+  <title>EquiSplit — World-Class Bill Splitting</title>
+  <meta name="description" content="Award-winning ultra-premium bill splitting app. Smart debt simplification, full edit controls, custom splits, and instant UPI WhatsApp payment requests.">
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,9 +12,9 @@
 </head>
 <body>
 
-  <!-- Glass Navigation Header -->
+  <!-- Glass Header -->
   <header class="app-header">
-    <div class="brand-title">
+    <div class="brand-title" id="brandHomeBtn">
       <div class="brand-icon">₹</div>
       <span>EquiSplit</span>
     </div>
@@ -25,25 +25,39 @@
       <button class="btn-icon" id="themeToggleBtn" title="Toggle Light/Dark Theme">
         🌙
       </button>
-      <button class="btn-icon" id="resetDataBtn" title="Reset Data">
+      <button class="btn-icon" id="resetDataBtn" title="Reset Preset Data">
         ↺
       </button>
     </div>
   </header>
 
-  <!-- Main App Layout -->
+  <!-- Main Container -->
   <main class="app-container">
 
-    <!-- Summary Hero Card -->
+    <!-- Hero Card -->
     <section class="hero-card">
       <div class="hero-header">
         <div>
-          <div class="hero-label">Total Group Expenses</div>
+          <div class="group-title-row">
+            <div class="group-name" id="groupNameHeader">Goa Weekend Trip</div>
+            <button class="btn-edit-group" id="editGroupBtn" title="Edit Group Name & Currency">✏️ Edit Group</button>
+          </div>
           <div class="hero-amount" id="totalSpentHero">₹0</div>
         </div>
-        <button class="btn-primary" id="openAddExpenseBtn" style="padding:10px 16px; font-size:0.88rem;">
+        <button class="btn-primary" id="openAddExpenseBtn">
           <span>+</span> Add Expense
         </button>
+      </div>
+
+      <!-- Spend Distribution Visualizer Bar -->
+      <div class="spend-bar-container">
+        <div class="spend-bar-label">
+          <span>Spend Distribution</span>
+          <span>By Member Contribution</span>
+        </div>
+        <div class="spend-bar-track" id="spendBarTrack">
+          <!-- Rendered dynamically by app.js -->
+        </div>
       </div>
 
       <div class="hero-stats">
@@ -62,9 +76,12 @@
       </div>
     </section>
 
-    <!-- Quick Presets Carousel -->
+    <!-- Presets Bar -->
     <section class="presets-section">
-      <div class="section-caption">Quick Scenarios</div>
+      <div class="section-caption">
+        <span>Quick Scenarios</span>
+        <span style="font-size:0.72rem; opacity:0.8;">Tap to test</span>
+      </div>
       <div class="presets-scroll">
         <button class="preset-chip" data-preset="goa">
           <span>🏖️</span> Goa Weekend Trip
@@ -88,7 +105,7 @@
       </div>
 
       <form class="add-person-form" id="addPersonForm">
-        <input type="text" id="newPersonName" class="apple-input" placeholder="Add member (e.g. Vikram)" required>
+        <input type="text" id="newPersonName" class="apple-input" placeholder="Add new member (e.g. Vikram)" required>
         <button type="submit" class="btn-primary">Add</button>
       </form>
     </section>
@@ -110,7 +127,7 @@
       </div>
     </section>
 
-    <!-- TAB 2: All Expenses -->
+    <!-- TAB 2: Expenses Log -->
     <section id="expensesTabContent" class="card-block" style="display:none;">
       <div class="card-header-row" style="margin-bottom:12px;">
         <div class="card-title">
@@ -128,7 +145,7 @@
         <div>
           <div class="card-title">⚡ Smart Settlement Matrix</div>
           <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:2px;">
-            Optimized using minimum cash flow algorithm (fewer total transactions).
+            Optimized via minimum cash flow algorithm. Click Settle to mark as paid.
           </div>
         </div>
       </div>
@@ -139,7 +156,7 @@
 
   </main>
 
-  <!-- ADD / EDIT EXPENSE MODAL (Bottom Sheet) -->
+  <!-- ADD / EDIT EXPENSE MODAL -->
   <div class="modal-overlay" id="expenseModal">
     <div class="modal-sheet">
       <div class="sheet-handle"></div>
@@ -149,21 +166,20 @@
       </div>
 
       <form id="expenseForm" style="display:flex; flex-direction:column; gap:16px;">
-        
         <div class="form-group">
           <label class="form-label" for="expenseDesc">Description</label>
-          <input type="text" id="expenseDesc" class="apple-input" placeholder="e.g. Dinner at Toit, Uber ride" required>
+          <input type="text" id="expenseDesc" class="apple-input" placeholder="e.g. Resort Villa, Dinner & Drinks" required>
         </div>
 
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
           <div class="form-group">
-            <label class="form-label" for="expenseAmount">Amount (₹)</label>
+            <label class="form-label" for="expenseAmount">Amount</label>
             <input type="number" step="0.01" id="expenseAmount" class="apple-input" placeholder="0.00" required>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="expensePayer">Paid By</label>
-            <select id="expensePayer" class="apple-input" style="appearance:auto;">
+            <select id="expensePayer" class="apple-input" style="appearance:auto; font-weight:600;">
               <!-- Dynamic options -->
             </select>
           </div>
@@ -172,7 +188,7 @@
         <div class="form-group">
           <label class="form-label">Split Method</label>
           <div class="split-options-grid" id="splitTypeOptions">
-            <!-- Rendered by app.js -->
+            <!-- Dynamic split options -->
           </div>
         </div>
 
@@ -186,12 +202,66 @@
         <button type="submit" class="btn-primary" style="margin-top:8px;">
           Save Expense
         </button>
-
       </form>
     </div>
   </div>
 
-  <!-- DESIGN RATIONALE & ASSESSMENT WRITEUP MODAL -->
+  <!-- EDIT GROUP SETTINGS MODAL -->
+  <div class="modal-overlay" id="groupModal">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="modal-header">
+        <h2 class="modal-title">Edit Group Settings</h2>
+        <button class="btn-close" id="closeGroupModalBtn">✕</button>
+      </div>
+
+      <form id="groupForm" style="display:flex; flex-direction:column; gap:16px;">
+        <div class="form-group">
+          <label class="form-label" for="groupNameInput">Group Title</label>
+          <input type="text" id="groupNameInput" class="apple-input" placeholder="e.g. Goa Trip 2026" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="groupCurrencyInput">Currency Symbol</label>
+          <select id="groupCurrencyInput" class="apple-input" style="appearance:auto; font-weight:700;">
+            <option value="₹">₹ (INR - Indian Rupee)</option>
+            <option value="$">$ (USD - US Dollar)</option>
+            <option value="€">€ (EUR - Euro)</option>
+            <option value="£">£ (GBP - British Pound)</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn-primary" style="margin-top:8px;">
+          Save Group Settings
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- EDIT MEMBER NAME MODAL -->
+  <div class="modal-overlay" id="memberEditModal">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="modal-header">
+        <h2 class="modal-title">Rename Member</h2>
+        <button class="btn-close" id="closeMemberModalBtn">✕</button>
+      </div>
+
+      <form id="memberEditForm" style="display:flex; flex-direction:column; gap:16px;">
+        <input type="hidden" id="editMemberOldName">
+        <div class="form-group">
+          <label class="form-label" for="editMemberNewName">Member Name</label>
+          <input type="text" id="editMemberNewName" class="apple-input" placeholder="Enter new name" required>
+        </div>
+
+        <button type="submit" class="btn-primary">
+          Update Name
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- DESIGN RATIONALE MODAL -->
   <div class="modal-overlay" id="writeupModal">
     <div class="modal-sheet" style="max-height:85vh;">
       <div class="sheet-handle"></div>
@@ -201,22 +271,21 @@
       </div>
 
       <div class="writeup-body">
-
         <div class="writeup-section">
           <div class="writeup-h3">1. Built vs. Cut (Scoping & UX Judgment)</div>
-          <p><strong>Built:</strong> Instant zero-auth local state, greedy debt simplification (Min-Cash-Flow graph reduction), multi-split methods (Equal, Custom Exact, Percentage, Exclusions like "someone didn't eat"), 1-tap WhatsApp/UPI payment request formatting, and custom presets for Indian 20-35 y/o users (Goa trips, Rent).</p>
+          <p><strong>Built:</strong> Instant zero-auth local state, greedy debt simplification (Min-Cash-Flow graph reduction), multi-split methods (Equal, Custom Exact, Percentage, Exclusions like "someone didn't eat"), 1-tap WhatsApp/UPI payment request formatting, member renaming, group settings editor, and custom presets.</p>
           <p style="margin-top:6px;"><strong>Cut:</strong> OCR receipt scanning and multi-currency exchange rates. <em>Why?</em> For everyday Indian social spending, manual multi-currency adds clutter without solving the core pain: <em>awkward payment reminders and complex debt loops.</em></p>
         </div>
 
         <div class="writeup-section">
           <div class="writeup-h3">2. Key Design Trade-off & Decision</div>
           <p><strong>Debated:</strong> Detailed Itemized Bill Checklist vs. Quick Exclusion Checkbox ("Someone didn't eat").</p>
-          <p style="margin-top:6px;"><strong>Decision:</strong> Chose Quick Exclusion & Percentage Split mode. Full itemized line-by-line breakdown increases cognitive friction on mobile (people hate spending 5 minutes checking item by item). A quick exclusion checkbox solves 90% of real-world "I didn't order alcohol/drinks" edge cases in 2 seconds.</p>
+          <p style="margin-top:6px;"><strong>Decision:</strong> Chose Quick Exclusion & Percentage Split mode. Full itemized line-by-line breakdown increases cognitive friction on mobile. A quick exclusion checkbox solves 90% of real-world "I didn't order alcohol/drinks" edge cases in 2 seconds.</p>
         </div>
 
         <div class="writeup-section">
           <div class="writeup-h3">3. AI Tool Usage & Reflections</div>
-          <p><strong>Prompting & Direction:</strong> Guided AI to craft an Apple iOS design system with high-contrast typography, zero framework bloat, and greedy debt graph reduction.</p>
+          <p><strong>Prompting & Direction:</strong> Guided AI to craft an Apple iOS design system with high-contrast typography, ambient mesh glows, zero framework bloat, and greedy debt graph reduction.</p>
           <p style="margin-top:6px;"><strong>Caught & Fixed:</strong> Corrected floating-point rounding errors in multi-way split balances and ensured bottom-sheet modal animations felt natural on mobile viewports.</p>
         </div>
 
@@ -224,7 +293,6 @@
           <div class="writeup-h3">4. Next Steps with More Time</div>
           <p>Direct Web UPI Intent links (`upi://pay?pa=...`), PWA offline caching, and QR code modal generation for instant in-person scanning.</p>
         </div>
-
       </div>
     </div>
   </div>

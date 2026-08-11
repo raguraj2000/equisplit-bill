@@ -1,57 +1,56 @@
 /**
- * EquiSplit - Split the Bill (Apple-Grade Ultra-Premium JS)
- * Target Users: 20-35 Year Olds in India
- * Core Features: Local state, Debt Simplification Algorithm, Uneven/Excluded Splits, UPI WhatsApp Sharing, Presets
+ * EquiSplit — World-Class Award Winning JS Application Logic
+ * Full Editing Capabilities: Group Settings, Member Renaming, Expense Management, Mark as Settled
  */
 
 class SplitBillApp {
   constructor() {
-    // Initial State (Load from localStorage if available, or default sample data)
-    this.storageKey = 'equisplit_app_state_v1';
+    this.storageKey = 'equisplit_app_state_v2';
     this.state = this.loadState() || this.getDefaultState();
     
     // UI State
     this.activeTab = 'summary'; // 'summary', 'expenses', 'settle'
     this.editingExpenseId = null;
+    this.editingMemberName = null;
     this.currentSplitType = 'equal';
     
-    // Bind Methods
     this.init();
   }
 
   getDefaultState() {
     return {
+      groupName: 'Goa Weekend Trip',
       currency: '₹',
       theme: 'dark',
       members: ['Rahul', 'Priya', 'Amit', 'Sneha'],
       expenses: [
         {
           id: 'exp_1',
-          description: 'Friday Night Dinner & Drinks',
-          amount: 3600,
+          description: 'Beach Resort Villa (3 Nights)',
+          amount: 12000,
           payer: 'Rahul',
-          date: new Date(Date.now() - 86400000).toISOString(),
+          date: new Date(Date.now() - 172800000).toISOString(),
           splitType: 'equal',
-          splits: { Rahul: 900, Priya: 900, Amit: 900, Sneha: 900 }
+          splits: { Rahul: 3000, Priya: 3000, Amit: 3000, Sneha: 3000 }
         },
         {
           id: 'exp_2',
-          description: 'Cab to Cocktail Bar',
-          amount: 650,
+          description: 'Friday Night Seafood & Cocktails',
+          amount: 4800,
           payer: 'Priya',
-          date: new Date(Date.now() - 43200000).toISOString(),
+          date: new Date(Date.now() - 86400000).toISOString(),
           splitType: 'equal',
-          splits: { Rahul: 162.5, Priya: 162.5, Amit: 162.5, Sneha: 162.5 }
+          splits: { Rahul: 1200, Priya: 1200, Amit: 1200, Sneha: 1200 }
         },
         {
           id: 'exp_3',
-          description: 'Craft Beer (Amit & Rahul only)',
-          amount: 1200,
+          description: 'Craft Beers (Amit & Rahul only)',
+          amount: 1500,
           payer: 'Amit',
           date: new Date().toISOString(),
           splitType: 'exclude',
           excludedMembers: ['Priya', 'Sneha'],
-          splits: { Rahul: 600, Amit: 600, Priya: 0, Sneha: 0 }
+          splits: { Rahul: 750, Amit: 750, Priya: 0, Sneha: 0 }
         }
       ]
     };
@@ -76,13 +75,8 @@ class SplitBillApp {
   }
 
   init() {
-    // Apply saved theme
     document.documentElement.setAttribute('data-theme', this.state.theme || 'dark');
-    
-    // Attach Event Listeners
     this.attachEvents();
-    
-    // Initial Render
     this.render();
   }
 
@@ -98,7 +92,7 @@ class SplitBillApp {
       });
     }
 
-    // Tab Buttons
+    // Segmented Navigation Tabs
     document.querySelectorAll('.segment-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         document.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
@@ -108,7 +102,7 @@ class SplitBillApp {
       });
     });
 
-    // Add Person Form
+    // Add Member Form
     const addPersonForm = document.getElementById('addPersonForm');
     if (addPersonForm) {
       addPersonForm.addEventListener('submit', (e) => {
@@ -122,7 +116,7 @@ class SplitBillApp {
       });
     }
 
-    // Modal Control
+    // Expense Modal
     const openAddExpBtn = document.getElementById('openAddExpenseBtn');
     if (openAddExpBtn) {
       openAddExpBtn.addEventListener('click', () => this.openExpenseModal());
@@ -138,6 +132,39 @@ class SplitBillApp {
       expenseForm.addEventListener('submit', (e) => {
         e.preventDefault();
         this.handleExpenseSubmit();
+      });
+    }
+
+    // Group Settings Modal
+    const editGroupBtn = document.getElementById('editGroupBtn');
+    if (editGroupBtn) {
+      editGroupBtn.addEventListener('click', () => this.openGroupModal());
+    }
+
+    const closeGroupModalBtn = document.getElementById('closeGroupModalBtn');
+    if (closeGroupModalBtn) {
+      closeGroupModalBtn.addEventListener('click', () => this.closeGroupModal());
+    }
+
+    const groupForm = document.getElementById('groupForm');
+    if (groupForm) {
+      groupForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.handleGroupSubmit();
+      });
+    }
+
+    // Member Edit Modal
+    const closeMemberModalBtn = document.getElementById('closeMemberModalBtn');
+    if (closeMemberModalBtn) {
+      closeMemberModalBtn.addEventListener('click', () => this.closeMemberModal());
+    }
+
+    const memberEditForm = document.getElementById('memberEditForm');
+    if (memberEditForm) {
+      memberEditForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.handleMemberRenameSubmit();
       });
     }
 
@@ -160,7 +187,7 @@ class SplitBillApp {
     const resetDataBtn = document.getElementById('resetDataBtn');
     if (resetDataBtn) {
       resetDataBtn.addEventListener('click', () => {
-        if (confirm('Reset to default preset data?')) {
+        if (confirm('Reset group data back to default preset?')) {
           this.state = this.getDefaultState();
           this.saveState();
           this.render();
@@ -178,7 +205,7 @@ class SplitBillApp {
     });
   }
 
-  /* Member Management */
+  /* Member Editing & Management */
   addMember(name) {
     if (this.state.members.includes(name)) {
       this.showToast(`${name} is already in the group!`);
@@ -190,15 +217,67 @@ class SplitBillApp {
     this.showToast(`Added ${name}`);
   }
 
+  openEditMemberModal(name) {
+    this.editingMemberName = name;
+    document.getElementById('editMemberOldName').value = name;
+    document.getElementById('editMemberNewName').value = name;
+    document.getElementById('memberEditModal').classList.add('active');
+  }
+
+  closeMemberModal() {
+    document.getElementById('memberEditModal').classList.remove('active');
+    this.editingMemberName = null;
+  }
+
+  handleMemberRenameSubmit() {
+    const oldName = this.editingMemberName;
+    const newName = document.getElementById('editMemberNewName').value.trim();
+
+    if (!newName) {
+      this.showToast('Name cannot be empty!');
+      return;
+    }
+
+    if (oldName === newName) {
+      this.closeMemberModal();
+      return;
+    }
+
+    if (this.state.members.includes(newName)) {
+      this.showToast(`A member named "${newName}" already exists!`);
+      return;
+    }
+
+    // Update member list
+    const idx = this.state.members.indexOf(oldName);
+    if (idx !== -1) this.state.members[idx] = newName;
+
+    // Update all expense references
+    this.state.expenses.forEach(exp => {
+      if (exp.payer === oldName) exp.payer = newName;
+      if (exp.splits && exp.splits[oldName] !== undefined) {
+        exp.splits[newName] = exp.splits[oldName];
+        delete exp.splits[oldName];
+      }
+      if (exp.excludedMembers) {
+        exp.excludedMembers = exp.excludedMembers.map(m => m === oldName ? newName : m);
+      }
+    });
+
+    this.saveState();
+    this.closeMemberModal();
+    this.render();
+    this.showToast(`Renamed ${oldName} to ${newName}`);
+  }
+
   removeMember(name) {
     if (this.state.members.length <= 2) {
       this.showToast('Minimum 2 members required to split bills!');
       return;
     }
-    // Check if member has existing expenses
     const hasExpenses = this.state.expenses.some(exp => exp.payer === name || (exp.splits && exp.splits[name] > 0));
     if (hasExpenses) {
-      if (!confirm(`${name} is part of existing expenses. Remove anyway?`)) return;
+      if (!confirm(`"${name}" is part of existing expenses. Remove member anyway?`)) return;
     }
     this.state.members = this.state.members.filter(m => m !== name);
     this.saveState();
@@ -206,7 +285,31 @@ class SplitBillApp {
     this.showToast(`Removed ${name}`);
   }
 
-  /* Core Calculation Engine */
+  /* Group Settings Editing */
+  openGroupModal() {
+    document.getElementById('groupNameInput').value = this.state.groupName || 'Goa Weekend Trip';
+    document.getElementById('groupCurrencyInput').value = this.state.currency || '₹';
+    document.getElementById('groupModal').classList.add('active');
+  }
+
+  closeGroupModal() {
+    document.getElementById('groupModal').classList.remove('active');
+  }
+
+  handleGroupSubmit() {
+    const name = document.getElementById('groupNameInput').value.trim();
+    const curr = document.getElementById('groupCurrencyInput').value;
+
+    if (name) this.state.groupName = name;
+    if (curr) this.state.currency = curr;
+
+    this.saveState();
+    this.closeGroupModal();
+    this.render();
+    this.showToast('Group settings updated');
+  }
+
+  /* Core Calculation Engine & Greedy Debt Reduction */
   calculateBalances() {
     const balances = {};
     this.state.members.forEach(m => balances[m] = 0);
@@ -215,12 +318,10 @@ class SplitBillApp {
       const payer = exp.payer;
       const amount = parseFloat(exp.amount) || 0;
       
-      // Payer gets credited full amount
       if (balances[payer] !== undefined) {
         balances[payer] += amount;
       }
 
-      // Each member gets debited their share
       if (exp.splits) {
         Object.entries(exp.splits).forEach(([member, share]) => {
           if (balances[member] !== undefined) {
@@ -233,19 +334,12 @@ class SplitBillApp {
     return balances;
   }
 
-  /**
-   * Debt Simplification Algorithm (Greedy Min-Cash-Flow)
-   * Converts complex balances into absolute minimum direct transfers
-   */
   calculateSettlements() {
     const balances = this.calculateBalances();
-    
-    // Separate into debtors (<0) and creditors (>0)
     const debtors = [];
     const creditors = [];
 
     Object.entries(balances).forEach(([name, bal]) => {
-      // Use round to 2 decimals to prevent floating point inaccuracies
       const roundedBal = Math.round(bal * 100) / 100;
       if (roundedBal < -0.01) {
         debtors.push({ name, amount: Math.abs(roundedBal) });
@@ -254,18 +348,15 @@ class SplitBillApp {
       }
     });
 
-    // Sort to pair largest debts with largest credits
     debtors.sort((a, b) => b.amount - a.amount);
     creditors.sort((a, b) => b.amount - a.amount);
 
     const transactions = [];
-    let i = 0; // debtor index
-    let j = 0; // creditor index
+    let i = 0, j = 0;
 
     while (i < debtors.length && j < creditors.length) {
       const debtor = debtors[i];
       const creditor = creditors[j];
-      
       const settleAmount = Math.min(debtor.amount, creditor.amount);
       const roundedSettle = Math.round(settleAmount * 100) / 100;
 
@@ -287,10 +378,29 @@ class SplitBillApp {
     return transactions;
   }
 
-  /* Preset Loader */
+  markAsSettled(from, to, amount) {
+    // Add a settlement expense entry to balance out the debt
+    const settlementExp = {
+      id: 'exp_settle_' + Date.now(),
+      description: `Payment: ${from} ➡️ ${to}`,
+      amount: amount,
+      payer: from,
+      date: new Date().toISOString(),
+      splitType: 'exact',
+      splits: { [to]: amount }
+    };
+
+    this.state.expenses.unshift(settlementExp);
+    this.saveState();
+    this.render();
+    this.showToast(`Marked ${this.state.currency}${amount} payment as settled! 🎉`);
+  }
+
+  /* Presets */
   loadPreset(key) {
     if (key === 'goa') {
       this.state = {
+        groupName: 'Goa Weekend Trip 🏖️',
         currency: '₹',
         theme: this.state.theme,
         members: ['Rohan', 'Ananya', 'Karan', 'Pooja', 'Vikram'],
@@ -320,13 +430,14 @@ class SplitBillApp {
             payer: 'Ananya',
             date: new Date(Date.now() - 43200000).toISOString(),
             splitType: 'exclude',
-            excludedMembers: ['Pooja'], // Pooja didn't join dinner
+            excludedMembers: ['Pooja'],
             splits: { Rohan: 2100, Ananya: 2100, Karan: 2100, Pooja: 0, Vikram: 2100 }
           }
         ]
       };
     } else if (key === 'rent') {
       this.state = {
+        groupName: 'Flat 402 Rent & Utilities 🏠',
         currency: '₹',
         theme: this.state.theme,
         members: ['Aarav', 'Dev', 'Kabir'],
@@ -342,7 +453,7 @@ class SplitBillApp {
           },
           {
             id: 'exp_r2',
-            description: 'WiFi & Maid Salary',
+            description: 'WiFi & Cook Salary',
             amount: 4500,
             payer: 'Dev',
             date: new Date().toISOString(),
@@ -354,7 +465,7 @@ class SplitBillApp {
     }
     this.saveState();
     this.render();
-    this.showToast(`Loaded "${key.toUpperCase()}" Preset`);
+    this.showToast(`Loaded Preset: "${this.state.groupName}"`);
   }
 
   /* Expense Modal Logic */
@@ -363,7 +474,6 @@ class SplitBillApp {
     const title = document.getElementById('modalTitle');
     const payerSelect = document.getElementById('expensePayer');
     
-    // Populate Payer Select
     payerSelect.innerHTML = this.state.members.map(m => `<option value="${m}">${m}</option>`).join('');
 
     if (expenseToEdit) {
@@ -413,7 +523,6 @@ class SplitBillApp {
       });
     });
 
-    // Also watch amount input changes to dynamically recalculate equal shares
     const amountInput = document.getElementById('expenseAmount');
     amountInput.oninput = () => this.renderSplitInputs();
 
@@ -428,8 +537,8 @@ class SplitBillApp {
     if (this.currentSplitType === 'equal') {
       const perPerson = numMembers > 0 ? (totalAmount / numMembers).toFixed(2) : 0;
       list.innerHTML = `
-        <div style="font-size:0.88rem; color:var(--text-secondary); text-align:center; padding:12px;">
-          Split equally among all ${numMembers} members: <strong style="color:var(--apple-blue);">${this.state.currency}${perPerson}</strong> each.
+        <div style="font-size:0.88rem; color:var(--text-secondary); text-align:center; padding:14px; background:var(--bg-primary); border-radius:12px;">
+          Split equally among ${numMembers} members: <strong style="color:var(--apple-blue); font-size:1.05rem;">${this.state.currency}${perPerson}</strong> each.
         </div>
       `;
     } else if (this.currentSplitType === 'exact') {
@@ -498,7 +607,7 @@ class SplitBillApp {
         sum += val;
       });
       if (Math.abs(sum - amount) > 1) {
-        this.showToast(`Exact shares total (${this.state.currency}${sum}) must equal ${this.state.currency}${amount}!`);
+        this.showToast(`Exact shares sum (${this.state.currency}${sum}) must equal total (${this.state.currency}${amount})!`);
         return;
       }
     } else if (this.currentSplitType === 'percent') {
@@ -564,10 +673,9 @@ class SplitBillApp {
     }
   }
 
-  /* Share Settlement via WhatsApp / UPI */
   shareSettlementWhatsApp(settleObj) {
     const text = `Hey ${settleObj.from}! 👋\n` +
-      `Regarding our shared expenses on EquiSplit:\n` +
+      `Regarding our *${this.state.groupName || 'Group'}* expenses:\n` +
       `💵 Please pay *${settleObj.to}*: *${this.state.currency}${settleObj.amount.toLocaleString('en-IN')}*\n\n` +
       `📲 Quick UPI / GPay / PhonePe / Paytm Settlement. Thanks!`;
 
@@ -587,10 +695,40 @@ class SplitBillApp {
     const numMembers = this.state.members.length;
     const avgPerPerson = numMembers > 0 ? totalSpent / numMembers : 0;
 
+    document.getElementById('groupNameHeader').innerText = this.state.groupName || 'Goa Weekend Trip';
     document.getElementById('totalSpentHero').innerText = `${this.state.currency}${Math.round(totalSpent).toLocaleString('en-IN')}`;
     document.getElementById('memberCountStat').innerText = numMembers;
     document.getElementById('avgSpentStat').innerText = `${this.state.currency}${Math.round(avgPerPerson).toLocaleString('en-IN')}`;
     document.getElementById('totalExpensesStat').innerText = this.state.expenses.length;
+
+    // Render Spend Distribution Bar
+    this.renderSpendDistributionBar(totalSpent);
+  }
+
+  renderSpendDistributionBar(totalSpent) {
+    const track = document.getElementById('spendBarTrack');
+    if (!track) return;
+
+    if (totalSpent === 0) {
+      track.innerHTML = `<div class="spend-bar-segment" style="width:100%; background:var(--bg-tertiary);"></div>`;
+      return;
+    }
+
+    const paidByMember = {};
+    this.state.members.forEach(m => paidByMember[m] = 0);
+    this.state.expenses.forEach(e => {
+      if (paidByMember[e.payer] !== undefined) {
+        paidByMember[e.payer] += parseFloat(e.amount) || 0;
+      }
+    });
+
+    const colors = ['#007AFF', '#34C759', '#FF9500', '#AF52DE', '#FF3B30', '#5856D6'];
+
+    track.innerHTML = this.state.members.map((m, idx) => {
+      const pct = ((paidByMember[m] / totalSpent) * 100).toFixed(1);
+      const color = colors[idx % colors.length];
+      return `<div class="spend-bar-segment" style="width:${pct}%; background:${color};" title="${m}: ${this.state.currency}${paidByMember[m]} (${pct}%)"></div>`;
+    }).join('');
   }
 
   renderPeopleList() {
@@ -601,7 +739,10 @@ class SplitBillApp {
       <div class="person-chip">
         <div class="avatar">${name[0].toUpperCase()}</div>
         <span>${name}</span>
-        <button class="chip-remove" onclick="window.app.removeMember('${name}')" title="Remove member">✕</button>
+        <div class="chip-actions">
+          <button class="chip-btn" onclick="window.app.openEditMemberModal('${name}')" title="Rename member">✏️</button>
+          <button class="chip-btn delete" onclick="window.app.removeMember('${name}')" title="Remove member">✕</button>
+        </div>
       </div>
     `).join('');
   }
@@ -687,8 +828,8 @@ class SplitBillApp {
           ${exp.excludedMembers && exp.excludedMembers.length > 0 ? `<span class="tag" style="background:var(--apple-orange-light); color:var(--apple-orange);">${exp.excludedMembers.length} Excluded</span>` : ''}
         </div>
         <div class="expense-actions">
-          <button class="btn-ghost-sm" onclick="window.app.openExpenseModal(window.app.getExpenseById('${exp.id}'))">Edit</button>
-          <button class="btn-ghost-sm" onclick="window.app.deleteExpense('${exp.id}')">Delete</button>
+          <button class="btn-ghost-sm" onclick="window.app.openExpenseModal(window.app.getExpenseById('${exp.id}'))">✏️ Edit</button>
+          <button class="btn-ghost-sm delete" onclick="window.app.deleteExpense('${exp.id}')">🗑️ Delete</button>
         </div>
       </div>
     `).join('');
@@ -722,11 +863,16 @@ class SplitBillApp {
             <span>${s.to}</span>
           </div>
         </div>
-        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
           <div class="flow-amount">${this.state.currency}${s.amount.toLocaleString('en-IN')}</div>
-          <button class="btn-action-sm" onclick="window.app.shareSettlementWhatsApp(window.app.calculateSettlements()[${idx}])">
-            📲 Request UPI
-          </button>
+          <div class="settle-action-group">
+            <button class="btn-action-sm" onclick="window.app.shareSettlementWhatsApp(window.app.calculateSettlements()[${idx}])">
+              📲 Request UPI
+            </button>
+            <button class="btn-settle-mark" onclick="window.app.markAsSettled('${s.from}', '${s.to}', ${s.amount})" title="Record direct payment as settled">
+              ✓ Settle
+            </button>
+          </div>
         </div>
       </div>
     `).join('');
@@ -742,7 +888,7 @@ class SplitBillApp {
     toast.className = 'toast';
     toast.innerHTML = `<span>✨ ${msg}</span>`;
     container.appendChild(toast);
-    setTimeout(() => toast.remove(), 2500);
+    setTimeout(() => toast.remove(), 2600);
   }
 
   createToastContainer() {
@@ -754,7 +900,6 @@ class SplitBillApp {
   }
 }
 
-// Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
   window.app = new SplitBillApp();
 });
