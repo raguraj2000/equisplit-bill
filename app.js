@@ -1,6 +1,6 @@
 /**
- * EquiSplit — World-Class Award Winning Application Engine
- * Trillion Dollar Production-Grade Net Balances Render & State Logic
+ * EquiSplit — Production SaaS Analytics Application Engine
+ * Renders Hex Dot Matrix, Performance Metrics, Net Balances & Debt Simplification
  */
 
 class SplitBillApp {
@@ -8,7 +8,6 @@ class SplitBillApp {
     this.storageKey = 'equisplit_app_state_v2';
     this.state = this.loadState() || this.getDefaultState();
     
-    // UI State
     this.activeTab = 'summary'; // 'summary', 'expenses', 'settle'
     this.editingExpenseId = null;
     this.editingMemberName = null;
@@ -45,12 +44,12 @@ class SplitBillApp {
         {
           id: 'exp_g3',
           description: 'Thalassa Dinner & Drinks',
-          amount: 8400,
+          amount: 5300,
           payer: 'Ananya',
           date: new Date(Date.now() - 43200000).toISOString(),
           splitType: 'exclude',
           excludedMembers: ['Pooja'],
-          splits: { Rohan: 2100, Ananya: 2100, Karan: 2100, Pooja: 0, Vikram: 2100 }
+          splits: { Rohan: 1325, Ananya: 1325, Karan: 1325, Pooja: 0, Vikram: 1325 }
         }
       ]
     };
@@ -61,7 +60,7 @@ class SplitBillApp {
       const saved = localStorage.getItem(this.storageKey);
       return saved ? JSON.parse(saved) : null;
     } catch (e) {
-      console.error('Failed to load state from localStorage', e);
+      console.error('Failed to load state', e);
       return null;
     }
   }
@@ -70,7 +69,7 @@ class SplitBillApp {
     try {
       localStorage.setItem(this.storageKey, JSON.stringify(this.state));
     } catch (e) {
-      console.error('Failed to save state to localStorage', e);
+      console.error('Failed to save state', e);
     }
   }
 
@@ -92,13 +91,11 @@ class SplitBillApp {
       });
     }
 
-    // Segmented Navigation Tabs
-    document.querySelectorAll('.segment-btn').forEach(btn => {
+    // Sidebar Nav Items
+    document.querySelectorAll('.sidebar .nav-item[data-tab]').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        document.querySelectorAll('.segment-btn').forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
-        this.activeTab = e.target.dataset.tab;
-        this.renderTabContent();
+        const tab = e.currentTarget.dataset.tab;
+        this.switchTab(tab);
       });
     });
 
@@ -135,7 +132,7 @@ class SplitBillApp {
       });
     }
 
-    // Group Settings Modal
+    // Group Modal
     const editGroupBtn = document.getElementById('editGroupBtn');
     if (editGroupBtn) {
       editGroupBtn.addEventListener('click', () => this.openGroupModal());
@@ -168,7 +165,7 @@ class SplitBillApp {
       });
     }
 
-    // Writeup Modal
+    // Rationale Modal
     const openWriteupBtn = document.getElementById('openWriteupBtn');
     if (openWriteupBtn) {
       openWriteupBtn.addEventListener('click', () => {
@@ -187,7 +184,7 @@ class SplitBillApp {
     const resetDataBtn = document.getElementById('resetDataBtn');
     if (resetDataBtn) {
       resetDataBtn.addEventListener('click', () => {
-        if (confirm('Reset group data back to default preset?')) {
+        if (confirm('Reset to default preset data?')) {
           this.state = this.getDefaultState();
           this.saveState();
           this.render();
@@ -195,17 +192,33 @@ class SplitBillApp {
         }
       });
     }
-
-    // Presets
-    document.querySelectorAll('.preset-chip').forEach(chip => {
-      chip.addEventListener('click', (e) => {
-        const presetKey = e.currentTarget.dataset.preset;
-        this.loadPreset(presetKey);
-      });
-    });
   }
 
-  /* Member Editing */
+  switchTab(tab) {
+    this.activeTab = tab;
+    document.querySelectorAll('.sidebar .nav-item[data-tab]').forEach(b => {
+      b.classList.toggle('active', b.dataset.tab === tab);
+    });
+
+    const expTab = document.getElementById('expensesTabContent');
+    const setTab = document.getElementById('settleTabContent');
+
+    if (tab === 'expenses') {
+      expTab.style.display = 'block';
+      setTab.style.display = 'none';
+    } else if (tab === 'settle') {
+      expTab.style.display = 'none';
+      setTab.style.display = 'block';
+    } else {
+      expTab.style.display = 'block';
+      setTab.style.display = 'none';
+    }
+
+    // Scroll to master table
+    document.getElementById('masterTableSection').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  /* Member Management */
   addMember(name) {
     if (this.state.members.includes(name)) {
       this.showToast(`${name} is already in the group!`);
@@ -423,12 +436,12 @@ class SplitBillApp {
           {
             id: 'exp_g3',
             description: 'Thalassa Dinner & Drinks',
-            amount: 8400,
+            amount: 5300,
             payer: 'Ananya',
             date: new Date(Date.now() - 43200000).toISOString(),
             splitType: 'exclude',
             excludedMembers: ['Pooja'],
-            splits: { Rohan: 2100, Ananya: 2100, Karan: 2100, Pooja: 0, Vikram: 2100 }
+            splits: { Rohan: 1325, Ananya: 1325, Karan: 1325, Pooja: 0, Vikram: 1325 }
           }
         ]
       };
@@ -534,8 +547,8 @@ class SplitBillApp {
     if (this.currentSplitType === 'equal') {
       const perPerson = numMembers > 0 ? (totalAmount / numMembers).toFixed(2) : 0;
       list.innerHTML = `
-        <div style="font-size:0.88rem; color:var(--text-secondary); text-align:center; padding:14px; background:var(--bg-primary); border-radius:12px;">
-          Split equally among ${numMembers} members: <strong style="color:var(--apple-blue); font-size:1.05rem;">${this.state.currency}${perPerson}</strong> each.
+        <div style="font-size:0.88rem; color:var(--text-secondary); text-align:center; padding:14px; background:var(--bg-subtle); border-radius:12px;">
+          Split equally among ${numMembers} members: <strong style="color:var(--brand-blue); font-size:1.05rem;">${this.state.currency}${perPerson}</strong> each.
         </div>
       `;
     } else if (this.currentSplitType === 'exact') {
@@ -682,34 +695,25 @@ class SplitBillApp {
 
   /* Main Render Routine */
   render() {
-    this.renderSummaryHero();
-    this.renderPeopleList();
-    this.renderTabContent();
-  }
-
-  renderSummaryHero() {
     const totalSpent = this.state.expenses.reduce((acc, e) => acc + (parseFloat(e.amount) || 0), 0);
     const numMembers = this.state.members.length;
     const avgPerPerson = numMembers > 0 ? totalSpent / numMembers : 0;
 
+    // Header & Banners
     document.getElementById('groupNameHeader').innerText = this.state.groupName || 'Goa Weekend Trip';
     document.getElementById('totalSpentHero').innerText = `${this.state.currency}${Math.round(totalSpent).toLocaleString('en-IN')}`;
     document.getElementById('memberCountStat').innerText = numMembers;
     document.getElementById('avgSpentStat').innerText = `${this.state.currency}${Math.round(avgPerPerson).toLocaleString('en-IN')}`;
     document.getElementById('totalExpensesStat').innerText = this.state.expenses.length;
+    document.getElementById('attrSpentVal').innerText = `${this.state.currency}${Math.round(totalSpent).toLocaleString('en-IN')}`;
+    document.getElementById('vizTotalVal').innerText = `${this.state.currency}${Math.round(totalSpent).toLocaleString('en-IN')}`;
 
-    this.renderSpendDistributionBar(totalSpent);
-  }
+    // Compute Settlements
+    const settlements = this.calculateSettlements();
+    document.getElementById('pendingTransCount').innerText = settlements.length;
+    document.getElementById('sidebarDebtBadge').innerText = settlements.length;
 
-  renderSpendDistributionBar(totalSpent) {
-    const track = document.getElementById('spendBarTrack');
-    if (!track) return;
-
-    if (totalSpent === 0) {
-      track.innerHTML = `<div class="spend-bar-segment" style="width:100%; background:var(--bg-tertiary);"></div>`;
-      return;
-    }
-
+    // Highest Payer
     const paidByMember = {};
     this.state.members.forEach(m => paidByMember[m] = 0);
     this.state.expenses.forEach(e => {
@@ -718,22 +722,83 @@ class SplitBillApp {
       }
     });
 
-    const colors = ['#007AFF', '#30D158', '#FF9F0A', '#AF52DE', '#FF453A', '#5856D6'];
+    let maxPayer = this.state.members[0] || 'None';
+    let maxAmt = 0;
+    Object.entries(paidByMember).forEach(([m, amt]) => {
+      if (amt > maxAmt) {
+        maxAmt = amt;
+        maxPayer = m;
+      }
+    });
+    document.getElementById('topPayerName').innerText = maxPayer;
 
-    track.innerHTML = this.state.members.map((m, idx) => {
-      const pct = ((paidByMember[m] / totalSpent) * 100).toFixed(1);
-      const color = colors[idx % colors.length];
-      return `<div class="spend-bar-segment" style="width:${pct}%; background:${color};" title="${m}: ${this.state.currency}${paidByMember[m]} (${pct}%)"></div>`;
-    }).join('');
+    // Render Sub-components
+    this.renderHexDotGrid(totalSpent, paidByMember);
+    this.renderPeopleList();
+    this.renderBalancesList();
+    this.renderExpensesList();
+    this.renderSettlementsList();
+  }
+
+  /**
+   * EXACT HEX DOT MATRIX RENDER (Matching screenshot dot matrix visualization)
+   */
+  renderHexDotGrid(totalSpent, paidByMember) {
+    const grid = document.getElementById('hexDotGrid');
+    const legendList = document.getElementById('memberLegendList');
+    if (!grid || !legendList) return;
+
+    const totalDots = 60;
+    const colors = ['blue', 'green', 'purple', 'orange'];
+    const colorHex = ['#0284C7', '#16A34A', '#9333EA', '#EA580C'];
+
+    if (totalSpent === 0) {
+      grid.innerHTML = Array(totalDots).fill(0).map(() => `<div class="hex-dot" style="background:var(--border-color);"></div>`).join('');
+      legendList.innerHTML = `<div style="font-size:0.85rem; color:var(--text-tertiary);">No expense contributions logged yet.</div>`;
+      return;
+    }
+
+    let dotsHtml = '';
+    const legendItems = [];
+
+    this.state.members.forEach((m, idx) => {
+      const amt = paidByMember[m] || 0;
+      const pct = totalSpent > 0 ? (amt / totalSpent) * 100 : 0;
+      const memberDotsCount = Math.round((pct / 100) * totalDots);
+      const colorClass = colors[idx % colors.length];
+      const hex = colorHex[idx % colorHex.length];
+
+      for (let i = 0; i < memberDotsCount; i++) {
+        dotsHtml += `<div class="hex-dot ${colorClass}" title="${m}: ${this.state.currency}${amt.toLocaleString('en-IN')}"></div>`;
+      }
+
+      legendItems.push(`
+        <div class="legend-item">
+          <div class="legend-left">
+            <div class="legend-dot" style="background:${hex};"></div>
+            <span>${m}</span>
+            <span class="legend-pct">${pct.toFixed(1)}%</span>
+          </div>
+          <span style="font-feature-settings:'tnum';">${this.state.currency}${amt.toLocaleString('en-IN')}</span>
+        </div>
+      `);
+    });
+
+    grid.innerHTML = dotsHtml;
+    legendList.innerHTML = legendItems.join('');
   }
 
   renderPeopleList() {
     const grid = document.getElementById('peopleGrid');
     if (!grid) return;
 
-    grid.innerHTML = this.state.members.map(name => `
+    const bgColors = ['#0284C7', '#16A34A', '#9333EA', '#EA580C', '#E11D48'];
+
+    grid.innerHTML = this.state.members.map((name, idx) => `
       <div class="person-chip">
-        <div class="avatar">${name[0].toUpperCase()}</div>
+        <div class="table-avatar-badge" style="background:${bgColors[idx % bgColors.length]}; width:30px; height:30px; font-size:0.85rem;">
+          ${name[0].toUpperCase()}
+        </div>
         <span>${name}</span>
         <div class="chip-actions">
           <button class="chip-btn" onclick="window.app.openEditMemberModal('${name}')" title="Rename member">✏️</button>
@@ -743,38 +808,11 @@ class SplitBillApp {
     `).join('');
   }
 
-  renderTabContent() {
-    const summarySec = document.getElementById('summaryTabContent');
-    const expensesSec = document.getElementById('expensesTabContent');
-    const settleSec = document.getElementById('settleTabContent');
-
-    if (this.activeTab === 'summary') {
-      summarySec.style.display = 'block';
-      expensesSec.style.display = 'none';
-      settleSec.style.display = 'none';
-      this.renderBalancesList();
-    } else if (this.activeTab === 'expenses') {
-      summarySec.style.display = 'none';
-      expensesSec.style.display = 'block';
-      settleSec.style.display = 'none';
-      this.renderExpensesList();
-    } else if (this.activeTab === 'settle') {
-      summarySec.style.display = 'none';
-      expensesSec.style.display = 'none';
-      settleSec.style.display = 'block';
-      this.renderSettlementsList();
-    }
-  }
-
-  /**
-   * TRILLION-DOLLAR PRODUCTION-GRADE FINTECH CARD RENDER ROUTINE
-   */
   renderBalancesList() {
     const balances = this.calculateBalances();
     const container = document.getElementById('balancesList');
     if (!container) return;
 
-    // Calculate total paid & total share breakdown per member
     const paidByMember = {};
     const shareByMember = {};
     this.state.members.forEach(m => {
@@ -798,11 +836,11 @@ class SplitBillApp {
     });
 
     const gradients = [
-      'linear-gradient(135deg, #007AFF, #5856D6)',
-      'linear-gradient(135deg, #30D158, #28CD41)',
-      'linear-gradient(135deg, #FF9F0A, #FFB340)',
-      'linear-gradient(135deg, #AF52DE, #BF5AF2)',
-      'linear-gradient(135deg, #FF453A, #FF6961)'
+      '#0284C7',
+      '#16A34A',
+      '#EA580C',
+      '#9333EA',
+      '#E11D48'
     ];
 
     container.className = 'balance-card-grid';
@@ -810,7 +848,7 @@ class SplitBillApp {
       const rounded = Math.round(val * 100) / 100;
       const paid = Math.round((paidByMember[name] || 0) * 100) / 100;
       const share = Math.round((shareByMember[name] || 0) * 100) / 100;
-      const grad = gradients[idx % gradients.length];
+      const color = gradients[idx % gradients.length];
       
       let cardClass = 'is-neutral';
       let badgeClass = 'neutral';
@@ -829,7 +867,7 @@ class SplitBillApp {
       return `
         <div class="fintech-balance-card ${cardClass}">
           <div class="fintech-left">
-            <div class="fintech-avatar-ring" style="background:${grad};">
+            <div class="fintech-avatar-ring" style="background:${color}; width:44px; height:44px; font-size:1.1rem;">
               ${name[0].toUpperCase()}
             </div>
             <div class="fintech-info">
@@ -856,33 +894,56 @@ class SplitBillApp {
 
     if (this.state.expenses.length === 0) {
       container.innerHTML = `
-        <div class="empty-state">
-          <div class="empty-icon">💸</div>
-          <div>No expenses added yet! Tap "+ Add Expense" above.</div>
+        <div style="text-align:center; padding:32px; color:var(--text-tertiary);">
+          No expenses added yet! Tap "+ Add Expense" above.
         </div>
       `;
       return;
     }
 
-    container.innerHTML = this.state.expenses.map(exp => `
-      <div class="expense-card">
-        <div class="expense-top">
-          <div>
-            <div class="expense-title">${exp.description}</div>
-            <div class="expense-subtitle">Paid by <strong>${exp.payer}</strong> • ${new Date(exp.date).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}</div>
-          </div>
-          <div class="expense-amount">${this.state.currency}${parseFloat(exp.amount).toLocaleString('en-IN')}</div>
-        </div>
-        <div class="expense-tags">
-          <span class="tag split-type">${(exp.splitType || 'equal').toUpperCase()} SPLIT</span>
-          ${exp.excludedMembers && exp.excludedMembers.length > 0 ? `<span class="tag" style="background:var(--apple-orange-light); color:var(--apple-orange);">${exp.excludedMembers.length} Excluded</span>` : ''}
-        </div>
-        <div class="expense-actions">
-          <button class="btn-ghost-sm" onclick="window.app.openExpenseModal(window.app.getExpenseById('${exp.id}'))">✏️ Edit</button>
-          <button class="btn-ghost-sm delete" onclick="window.app.deleteExpense('${exp.id}')">🗑️ Delete</button>
-        </div>
+    container.innerHTML = `
+      <div class="table-wrapper">
+        <table class="saas-table">
+          <thead>
+            <tr>
+              <th>Expense Description</th>
+              <th>Payer</th>
+              <th>Split Type</th>
+              <th>Amount</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${this.state.expenses.map(exp => `
+              <tr>
+                <td>
+                  <div style="font-weight:800; font-size:1.02rem;">${exp.description}</div>
+                  <div style="font-size:0.8rem; color:var(--text-tertiary);">${new Date(exp.date).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}</div>
+                </td>
+                <td>
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <div class="table-avatar-badge" style="background:var(--brand-blue); width:28px; height:28px; font-size:0.8rem;">${exp.payer[0]}</div>
+                    <span>${exp.payer}</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="metric-pill neutral">${(exp.splitType || 'equal').toUpperCase()}</span>
+                </td>
+                <td style="font-size:1.1rem; font-weight:800;">
+                  ${this.state.currency}${parseFloat(exp.amount).toLocaleString('en-IN')}
+                </td>
+                <td>
+                  <div style="display:flex; gap:6px;">
+                    <button class="btn-ghost-sm" onclick="window.app.openExpenseModal(window.app.getExpenseById('${exp.id}'))">✏️</button>
+                    <button class="btn-ghost-sm delete" onclick="window.app.deleteExpense('${exp.id}')">🗑️</button>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
       </div>
-    `).join('');
+    `;
   }
 
   renderSettlementsList() {
@@ -892,9 +953,8 @@ class SplitBillApp {
 
     if (settlements.length === 0) {
       container.innerHTML = `
-        <div class="empty-state">
-          <div class="empty-icon">🎉</div>
-          <div style="font-weight:700; color:var(--apple-green);">Everyone is all settled up! No debts pending.</div>
+        <div style="text-align:center; padding:32px; color:var(--brand-green); font-weight:800; font-size:1.1rem;">
+          🎉 Everyone is all settled up! No debts pending.
         </div>
       `;
       return;
@@ -904,12 +964,12 @@ class SplitBillApp {
       <div class="settlement-card">
         <div class="debt-flow">
           <div class="flow-user">
-            <div class="avatar" style="background:linear-gradient(135deg, #FF9F0A, #FF453A);">${s.from[0].toUpperCase()}</div>
+            <div class="table-avatar-badge" style="background:var(--brand-orange); width:32px; height:32px;">${s.from[0]}</div>
             <span>${s.from}</span>
           </div>
           <div class="flow-arrow">➡️</div>
           <div class="flow-user">
-            <div class="avatar" style="background:linear-gradient(135deg, #30D158, #28CD41);">${s.to[0].toUpperCase()}</div>
+            <div class="table-avatar-badge" style="background:var(--brand-green); width:32px; height:32px;">${s.to[0]}</div>
             <span>${s.to}</span>
           </div>
         </div>
@@ -919,7 +979,7 @@ class SplitBillApp {
             <button class="btn-action-sm" onclick="window.app.shareSettlementWhatsApp(window.app.calculateSettlements()[${idx}])">
               📲 Request UPI
             </button>
-            <button class="btn-settle-mark" onclick="window.app.markAsSettled('${s.from}', '${s.to}', ${s.amount})" title="Record direct payment as settled">
+            <button class="btn-settle-mark" onclick="window.app.markAsSettled('${s.from}', '${s.to}', ${s.amount})">
               ✓ Settle
             </button>
           </div>
