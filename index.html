@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EquiSplit — Split Bills Effortlessly</title>
+  <meta name="description" content="Ultra-premium, mobile-first bill splitting app designed for Indian everyday expenses. Smart debt simplification, uneven splits, and instant UPI payment links.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Glass Navigation Header -->
+  <header class="app-header">
+    <div class="brand-title">
+      <div class="brand-icon">₹</div>
+      <span>EquiSplit</span>
+    </div>
+    <div class="header-actions">
+      <button class="badge-btn" id="openWriteupBtn" title="View Design Assessment & AI Write-up">
+        <span>📄</span> Rationale
+      </button>
+      <button class="btn-icon" id="themeToggleBtn" title="Toggle Light/Dark Theme">
+        🌙
+      </button>
+      <button class="btn-icon" id="resetDataBtn" title="Reset Data">
+        ↺
+      </button>
+    </div>
+  </header>
+
+  <!-- Main App Layout -->
+  <main class="app-container">
+
+    <!-- Summary Hero Card -->
+    <section class="hero-card">
+      <div class="hero-header">
+        <div>
+          <div class="hero-label">Total Group Expenses</div>
+          <div class="hero-amount" id="totalSpentHero">₹0</div>
+        </div>
+        <button class="btn-primary" id="openAddExpenseBtn" style="padding:10px 16px; font-size:0.88rem;">
+          <span>+</span> Add Expense
+        </button>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-title">Members</span>
+          <span class="stat-val neutral" id="memberCountStat">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-title">Avg / Person</span>
+          <span class="stat-val neutral" id="avgSpentStat">₹0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-title">Total Bills</span>
+          <span class="stat-val neutral" id="totalExpensesStat">0</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Presets Carousel -->
+    <section class="presets-section">
+      <div class="section-caption">Quick Scenarios</div>
+      <div class="presets-scroll">
+        <button class="preset-chip" data-preset="goa">
+          <span>🏖️</span> Goa Weekend Trip
+        </button>
+        <button class="preset-chip" data-preset="rent">
+          <span>🏠</span> Flat Rent & Bills
+        </button>
+      </div>
+    </section>
+
+    <!-- Group Members Management -->
+    <section class="card-block">
+      <div class="card-header-row">
+        <div class="card-title">
+          <span>👥</span> Group Members
+        </div>
+      </div>
+      
+      <div class="people-grid" id="peopleGrid">
+        <!-- Rendered by app.js -->
+      </div>
+
+      <form class="add-person-form" id="addPersonForm">
+        <input type="text" id="newPersonName" class="apple-input" placeholder="Add member (e.g. Vikram)" required>
+        <button type="submit" class="btn-primary">Add</button>
+      </form>
+    </section>
+
+    <!-- Segmented Navigation Tabs -->
+    <nav class="segmented-control">
+      <button class="segment-btn active" data-tab="summary">Summary</button>
+      <button class="segment-btn" data-tab="expenses">Expenses</button>
+      <button class="segment-btn" data-tab="settle">Who Owes Whom</button>
+    </nav>
+
+    <!-- TAB 1: Net Balances Summary -->
+    <section id="summaryTabContent" class="card-block">
+      <div class="card-title" style="margin-bottom:8px;">
+        <span>📊</span> Individual Net Balances
+      </div>
+      <div id="balancesList" class="settlement-list">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+    <!-- TAB 2: All Expenses -->
+    <section id="expensesTabContent" class="card-block" style="display:none;">
+      <div class="card-header-row" style="margin-bottom:12px;">
+        <div class="card-title">
+          <span>🧾</span> Expense Log
+        </div>
+      </div>
+      <div id="expensesList" class="expenses-list">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+    <!-- TAB 3: Optimized Debt Settlements -->
+    <section id="settleTabContent" class="card-block" style="display:none;">
+      <div class="card-header-row" style="margin-bottom:8px;">
+        <div>
+          <div class="card-title">⚡ Smart Settlement Matrix</div>
+          <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:2px;">
+            Optimized using minimum cash flow algorithm (fewer total transactions).
+          </div>
+        </div>
+      </div>
+      <div id="settlementsList" class="settlement-list">
+        <!-- Rendered by app.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ADD / EDIT EXPENSE MODAL (Bottom Sheet) -->
+  <div class="modal-overlay" id="expenseModal">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">Add Expense</h2>
+        <button class="btn-close" id="closeExpenseModalBtn">✕</button>
+      </div>
+
+      <form id="expenseForm" style="display:flex; flex-direction:column; gap:16px;">
+        
+        <div class="form-group">
+          <label class="form-label" for="expenseDesc">Description</label>
+          <input type="text" id="expenseDesc" class="apple-input" placeholder="e.g. Dinner at Toit, Uber ride" required>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label class="form-label" for="expenseAmount">Amount (₹)</label>
+            <input type="number" step="0.01" id="expenseAmount" class="apple-input" placeholder="0.00" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="expensePayer">Paid By</label>
+            <select id="expensePayer" class="apple-input" style="appearance:auto;">
+              <!-- Dynamic options -->
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Split Method</label>
+          <div class="split-options-grid" id="splitTypeOptions">
+            <!-- Rendered by app.js -->
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Split Breakdown</label>
+          <div id="splitPeopleList" class="split-people-list">
+            <!-- Dynamic split inputs -->
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" style="margin-top:8px;">
+          Save Expense
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- DESIGN RATIONALE & ASSESSMENT WRITEUP MODAL -->
+  <div class="modal-overlay" id="writeupModal">
+    <div class="modal-sheet" style="max-height:85vh;">
+      <div class="sheet-handle"></div>
+      <div class="modal-header">
+        <h2 class="modal-title">Design Assessment & AI Writeup</h2>
+        <button class="btn-close" id="closeWriteupBtn">✕</button>
+      </div>
+
+      <div class="writeup-body">
+
+        <div class="writeup-section">
+          <div class="writeup-h3">1. Built vs. Cut (Scoping & UX Judgment)</div>
+          <p><strong>Built:</strong> Instant zero-auth local state, greedy debt simplification (Min-Cash-Flow graph reduction), multi-split methods (Equal, Custom Exact, Percentage, Exclusions like "someone didn't eat"), 1-tap WhatsApp/UPI payment request formatting, and custom presets for Indian 20-35 y/o users (Goa trips, Rent).</p>
+          <p style="margin-top:6px;"><strong>Cut:</strong> OCR receipt scanning and multi-currency exchange rates. <em>Why?</em> For everyday Indian social spending, manual multi-currency adds clutter without solving the core pain: <em>awkward payment reminders and complex debt loops.</em></p>
+        </div>
+
+        <div class="writeup-section">
+          <div class="writeup-h3">2. Key Design Trade-off & Decision</div>
+          <p><strong>Debated:</strong> Detailed Itemized Bill Checklist vs. Quick Exclusion Checkbox ("Someone didn't eat").</p>
+          <p style="margin-top:6px;"><strong>Decision:</strong> Chose Quick Exclusion & Percentage Split mode. Full itemized line-by-line breakdown increases cognitive friction on mobile (people hate spending 5 minutes checking item by item). A quick exclusion checkbox solves 90% of real-world "I didn't order alcohol/drinks" edge cases in 2 seconds.</p>
+        </div>
+
+        <div class="writeup-section">
+          <div class="writeup-h3">3. AI Tool Usage & Reflections</div>
+          <p><strong>Prompting & Direction:</strong> Guided AI to craft an Apple iOS design system with high-contrast typography, zero framework bloat, and greedy debt graph reduction.</p>
+          <p style="margin-top:6px;"><strong>Caught & Fixed:</strong> Corrected floating-point rounding errors in multi-way split balances and ensured bottom-sheet modal animations felt natural on mobile viewports.</p>
+        </div>
+
+        <div class="writeup-section">
+          <div class="writeup-h3">4. Next Steps with More Time</div>
+          <p>Direct Web UPI Intent links (`upi://pay?pa=...`), PWA offline caching, and QR code modal generation for instant in-person scanning.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
