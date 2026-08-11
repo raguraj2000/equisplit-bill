@@ -1,72 +1,80 @@
 /* ==========================================================================
-   EquiSplit — Large Accessibility & High-Contrast Production CSS System
-   Optimized for 45+ Age Group: Big Readable Fonts, Large Touch Targets,
-   Ultra-Clear Icons & Fluid Motion
+   EquiSplit — AbrarInPixels Signature Ultra-Premium UI Architecture
+   Inspired by @AbrarInPixels: Deep Obsidian Black, Frosted Glass Cards,
+   Vibrant Pill Badges, Micro-Segmented Controls, and Hyper-Clean Fintech Craft
    ========================================================================== */
 
 :root {
   --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", system-ui, sans-serif;
   
-  /* Light Theme */
-  --bg-primary: #F4F4F9;
-  --bg-secondary: #FFFFFF;
-  --bg-tertiary: #E6E6EE;
-  --bg-glass: rgba(255, 255, 255, 0.88);
-  --bg-card: rgba(255, 255, 255, 0.96);
-  
-  --text-primary: #050508;
-  --text-secondary: #4A4A52;
-  --text-tertiary: #757580;
-  
-  --border-light: rgba(0, 0, 0, 0.12);
-  --border-subtle: rgba(0, 0, 0, 0.06);
-  
-  /* Accents */
-  --apple-blue: #0066FF;
-  --apple-blue-light: rgba(0, 102, 255, 0.12);
-  --apple-green: #24B34B;
-  --apple-green-light: rgba(36, 179, 75, 0.14);
-  --apple-red: #E6352B;
-  --apple-red-light: rgba(230, 53, 43, 0.14);
-  --apple-orange: #E68200;
-  --apple-orange-light: rgba(230, 130, 0, 0.14);
-
-  /* Shadows */
-  --shadow-sm: 0 3px 12px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.09);
-  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.14);
-  --shadow-sheet: 0 -14px 50px rgba(0, 0, 0, 0.22);
-  
-  --radius-sm: 12px;
-  --radius-md: 18px;
-  --radius-lg: 28px;
-  --radius-pill: 9999px;
-  
-  --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-[data-theme="dark"] {
-  --bg-primary: #040406;
-  --bg-secondary: #121216;
-  --bg-tertiary: #202028;
-  --bg-glass: rgba(18, 18, 22, 0.88);
-  --bg-card: rgba(22, 22, 28, 0.92);
+  /* Dark Theme (Default AbrarInPixels Signature Look) */
+  --bg-primary: #060608;
+  --bg-secondary: #101014;
+  --bg-tertiary: #1A1A22;
+  --bg-glass: rgba(16, 16, 20, 0.82);
+  --bg-card: rgba(18, 18, 24, 0.88);
+  --bg-card-hover: rgba(26, 26, 34, 0.95);
   
   --text-primary: #FFFFFF;
-  --text-secondary: #B0B0BD;
-  --text-tertiary: #7D7D8C;
+  --text-secondary: #A0A0B0;
+  --text-tertiary: #656575;
   
-  --border-light: rgba(255, 255, 255, 0.16);
-  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-glow: rgba(0, 122, 255, 0.4);
+  
+  /* Signature Accents */
+  --abrar-blue: #0A84FF;
+  --abrar-blue-glow: rgba(10, 132, 255, 0.35);
+  --abrar-blue-light: rgba(10, 132, 255, 0.12);
+  --abrar-green: #30D158;
+  --abrar-green-glow: rgba(48, 209, 88, 0.35);
+  --abrar-green-light: rgba(48, 209, 88, 0.12);
+  --abrar-red: #FF453A;
+  --abrar-red-glow: rgba(255, 69, 58, 0.35);
+  --abrar-red-light: rgba(255, 69, 58, 0.12);
+  --abrar-orange: #FF9F0A;
+  --abrar-orange-glow: rgba(255, 159, 10, 0.35);
+  --abrar-orange-light: rgba(255, 159, 10, 0.12);
+  --abrar-purple: #BF5AF2;
 
-  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.4);
+  /* Shadows & Depth */
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 12px 36px rgba(0, 0, 0, 0.6);
-  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.8);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.85);
+  --shadow-sheet: 0 -16px 50px rgba(0, 0, 0, 0.9);
+  
+  --radius-sm: 14px;
+  --radius-md: 20px;
+  --radius-lg: 30px;
+  --radius-pill: 9999px;
+  
+  --transition-fast: 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-spring: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Reset */
+[data-theme="light"] {
+  --bg-primary: #F4F4F8;
+  --bg-secondary: #FFFFFF;
+  --bg-tertiary: #E6E6EE;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --bg-card-hover: #FFFFFF;
+  
+  --text-primary: #08080A;
+  --text-secondary: #50505A;
+  --text-tertiary: #80808C;
+  
+  --border-light: rgba(0, 0, 0, 0.09);
+  --border-subtle: rgba(0, 0, 0, 0.04);
+  
+  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 24px 50px rgba(0, 0, 0, 0.12);
+}
+
+/* Base Reset */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -78,33 +86,33 @@ body {
   font-family: var(--font-family);
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  font-size: 1.1rem; /* Big readable default font size for 45+ accessibility */
-  line-height: 1.55;
-  letter-spacing: -0.015em;
+  font-size: 1.1rem; /* High 45+ readability maintained */
+  line-height: 1.5;
+  letter-spacing: -0.022em;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow-x: hidden;
-  padding-bottom: 100px;
+  padding-bottom: 110px;
   position: relative;
 }
 
-/* Ambient Backdrop Glow */
+/* Ambient Radial Mesh Gradient Glow */
 body::before {
   content: "";
   position: fixed;
-  top: -180px;
+  top: -200px;
   left: 50%;
   transform: translateX(-50%);
-  width: 700px;
-  height: 700px;
-  background: radial-gradient(circle, rgba(0, 102, 255, 0.14) 0%, rgba(88, 86, 214, 0.07) 50%, rgba(0, 0, 0, 0) 70%);
+  width: 750px;
+  height: 750px;
+  background: radial-gradient(circle, rgba(10, 132, 255, 0.16) 0%, rgba(191, 90, 242, 0.08) 50%, rgba(0, 0, 0, 0) 75%);
   z-index: -1;
   pointer-events: none;
 }
 
-/* Container */
+/* App Container */
 .app-container {
   width: 100%;
   max-width: 720px;
@@ -114,15 +122,15 @@ body::before {
   gap: 24px;
 }
 
-/* Glass Header with Large Typography & Icons */
+/* AbrarInPixels Signature Header Bar */
 .app-header {
   position: sticky;
   top: 0;
   z-index: 100;
   width: 100%;
   background: var(--bg-glass);
-  backdrop-filter: blur(25px) saturate(190%);
-  -webkit-backdrop-filter: blur(25px) saturate(190%);
+  backdrop-filter: blur(30px) saturate(200%);
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
   border-bottom: 1px solid var(--border-light);
   padding: 16px 24px;
   display: flex;
@@ -135,15 +143,15 @@ body::before {
   align-items: center;
   gap: 12px;
   font-weight: 800;
-  font-size: 1.5rem; /* Larger Brand Name */
-  letter-spacing: -0.035em;
+  font-size: 1.55rem;
+  letter-spacing: -0.04em;
   user-select: none;
 }
 
 .brand-icon {
   width: 44px;
-  height: 44px; /* Larger Icon */
-  background: linear-gradient(135deg, #0066FF, #5856D6);
+  height: 44px;
+  background: linear-gradient(135deg, #0A84FF, #BF5AF2);
   border-radius: 14px;
   display: flex;
   align-items: center;
@@ -151,7 +159,7 @@ body::before {
   color: #fff;
   font-weight: 800;
   font-size: 1.4rem;
-  box-shadow: 0 4px 16px rgba(0, 102, 255, 0.4);
+  box-shadow: 0 4px 20px var(--abrar-blue-glow);
 }
 
 .header-actions {
@@ -165,27 +173,27 @@ body::before {
   border: 1px solid var(--border-subtle);
   color: var(--text-primary);
   width: 46px;
-  height: 46px; /* Larger Touch Target */
+  height: 46px;
   border-radius: var(--radius-pill);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 1.25rem; /* Larger Icon */
+  font-size: 1.25rem;
   transition: all var(--transition-fast);
 }
 
-.btn-icon:hover { transform: scale(1.08); }
+.btn-icon:hover { transform: scale(1.08); border-color: var(--border-light); }
 .btn-icon:active { transform: scale(0.92); }
 
 .badge-btn {
   padding: 10px 18px;
   border-radius: var(--radius-pill);
-  font-size: 1rem; /* Larger Font */
+  font-size: 1rem;
   font-weight: 700;
-  background: var(--apple-blue-light);
-  color: var(--apple-blue);
-  border: 1px solid rgba(0, 102, 255, 0.3);
+  background: var(--abrar-blue-light);
+  color: var(--abrar-blue);
+  border: 1px solid rgba(10, 132, 255, 0.3);
   cursor: pointer;
   transition: all var(--transition-fast);
   display: flex;
@@ -193,20 +201,26 @@ body::before {
   gap: 8px;
 }
 
-.badge-btn:hover { background: var(--apple-blue); color: white; }
+.badge-btn:hover { background: var(--abrar-blue); color: white; box-shadow: 0 4px 16px var(--abrar-blue-glow); }
 
-/* Hero Summary Card */
+/* AbrarInPixels Signature Hero Card */
 .hero-card {
   background: var(--bg-card);
   border: 1.5px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 28px;
+  padding: 30px;
   box-shadow: var(--shadow-md);
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   transition: all var(--transition-smooth);
+}
+
+.hero-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-2px);
 }
 
 .hero-card::before {
@@ -214,7 +228,7 @@ body::before {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--apple-blue), #5856D6, #AF52DE);
+  background: linear-gradient(90deg, #0A84FF, #30D158, #BF5AF2);
 }
 
 .hero-header {
@@ -231,31 +245,31 @@ body::before {
 }
 
 .group-name {
-  font-size: 1.1rem; /* Larger Readable Title */
+  font-size: 1.1rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--apple-blue);
+  letter-spacing: 0.06em;
+  color: var(--abrar-blue);
 }
 
 .btn-edit-group {
-  background: var(--apple-blue-light);
-  border: 1px solid rgba(0, 102, 255, 0.25);
-  color: var(--apple-blue);
+  background: var(--abrar-blue-light);
+  border: 1px solid rgba(10, 132, 255, 0.25);
+  color: var(--abrar-blue);
   cursor: pointer;
   font-size: 0.95rem;
   font-weight: 700;
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: var(--radius-pill);
   transition: all var(--transition-fast);
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
-.btn-edit-group:hover { background: var(--apple-blue); color: white; }
+.btn-edit-group:hover { background: var(--abrar-blue); color: white; }
 
 .hero-amount {
-  font-size: 3.4rem; /* Extra Large Amount Display for 45+ readability */
+  font-size: 3.5rem;
   font-weight: 800;
   letter-spacing: -0.05em;
   color: var(--text-primary);
@@ -278,7 +292,7 @@ body::before {
 }
 
 .stat-title {
-  font-size: 0.88rem; /* Larger Caption */
+  font-size: 0.88rem;
   color: var(--text-secondary);
   font-weight: 700;
   text-transform: uppercase;
@@ -286,19 +300,19 @@ body::before {
 }
 
 .stat-val {
-  font-size: 1.3rem; /* Extra Large Number */
+  font-size: 1.35rem;
   font-weight: 800;
   margin-top: 4px;
   font-feature-settings: "tnum";
 }
 
-.stat-val.positive { color: var(--apple-green); }
-.stat-val.negative { color: var(--apple-red); }
-.stat-val.neutral { color: var(--apple-blue); }
+.stat-val.positive { color: var(--abrar-green); }
+.stat-val.negative { color: var(--abrar-red); }
+.stat-val.neutral { color: var(--abrar-blue); }
 
 /* Spend Bar Track */
 .spend-bar-container {
-  margin-top: 18px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -325,7 +339,7 @@ body::before {
   transition: width var(--transition-smooth);
 }
 
-/* Presets & Actions */
+/* Presets Carousel */
 .presets-section {
   display: flex;
   flex-direction: column;
@@ -356,9 +370,9 @@ body::before {
   flex: 0 0 auto;
   background: var(--bg-card);
   border: 1px solid var(--border-light);
-  padding: 12px 20px; /* Larger Touch Area */
+  padding: 12px 22px;
   border-radius: var(--radius-pill);
-  font-size: 1.02rem; /* Larger Font */
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--text-primary);
   cursor: pointer;
@@ -370,27 +384,27 @@ body::before {
 }
 
 .preset-chip:hover {
-  border-color: var(--apple-blue);
+  border-color: var(--abrar-blue);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
-/* Segmented Control Tabs */
+/* AbrarInPixels Signature Micro-Segmented Control Tabs */
 .segmented-control {
   display: flex;
   background: var(--bg-tertiary);
   padding: 6px;
-  border-radius: 18px;
+  border-radius: 20px;
   position: relative;
-  box-shadow: inset 0 1px 4px rgba(0,0,0,0.08);
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.12);
 }
 
 .segment-btn {
   flex: 1;
   border: none;
   background: transparent;
-  padding: 14px 16px; /* Larger Touch Target */
-  font-size: 1.05rem; /* Large Font */
+  padding: 14px 18px;
+  font-size: 1.05rem;
   font-weight: 800;
   color: var(--text-secondary);
   border-radius: 14px;
@@ -403,21 +417,21 @@ body::before {
 .segment-btn.active {
   background: var(--bg-secondary);
   color: var(--text-primary);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
-/* Card Block Containers */
+/* Card Block Container */
 .card-block {
   background: var(--bg-card);
   border: 1.5px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 26px;
+  padding: 28px;
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  gap: 22px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .card-header-row {
@@ -427,12 +441,12 @@ body::before {
 }
 
 .card-title {
-  font-size: 1.3rem; /* Large Heading */
+  font-size: 1.35rem;
   font-weight: 800;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 /* Members Grid & Editing */
@@ -450,27 +464,27 @@ body::before {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 1.05rem; /* Larger Font */
+  font-size: 1.05rem;
   font-weight: 700;
   transition: all var(--transition-fast);
   box-shadow: var(--shadow-sm);
 }
 
 .person-chip:hover {
-  border-color: var(--apple-blue);
+  border-color: var(--abrar-blue);
   transform: translateY(-1px);
 }
 
 .avatar {
-  width: 34px;
-  height: 34px; /* Larger Avatar */
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #0066FF, #5856D6);
+  background: linear-gradient(135deg, #0A84FF, #BF5AF2);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 800;
 }
 
@@ -485,14 +499,14 @@ body::before {
   background: transparent;
   color: var(--text-tertiary);
   cursor: pointer;
-  font-size: 1.05rem; /* Larger Button Icons */
+  font-size: 1.05rem;
   padding: 4px 6px;
   border-radius: 6px;
   transition: all var(--transition-fast);
 }
 
-.chip-btn:hover { color: var(--apple-blue); }
-.chip-btn.delete:hover { color: var(--apple-red); }
+.chip-btn:hover { color: var(--abrar-blue); }
+.chip-btn.delete:hover { color: var(--abrar-red); }
 
 .add-person-form {
   display: flex;
@@ -504,8 +518,8 @@ body::before {
   background: var(--bg-primary);
   border: 1.5px solid var(--border-light);
   border-radius: var(--radius-md);
-  padding: 15px 20px; /* High Accessibility Input Heights */
-  font-size: 1.1rem; /* Big Input Font */
+  padding: 16px 22px;
+  font-size: 1.1rem;
   font-family: inherit;
   color: var(--text-primary);
   outline: none;
@@ -513,17 +527,17 @@ body::before {
 }
 
 .apple-input:focus {
-  border-color: var(--apple-blue);
-  box-shadow: 0 0 0 4px var(--apple-blue-light);
+  border-color: var(--abrar-blue);
+  box-shadow: 0 0 0 4px var(--abrar-blue-light);
 }
 
 .btn-primary {
-  background: var(--apple-blue);
+  background: var(--abrar-blue);
   color: white;
   border: none;
   border-radius: var(--radius-md);
-  padding: 15px 26px; /* High Touch Area */
-  font-size: 1.1rem; /* Big Touch Text */
+  padding: 16px 28px;
+  font-size: 1.1rem;
   font-weight: 800;
   font-family: inherit;
   cursor: pointer;
@@ -532,18 +546,18 @@ body::before {
   justify-content: center;
   gap: 8px;
   transition: all var(--transition-fast);
-  box-shadow: 0 4px 16px rgba(0, 102, 255, 0.35);
+  box-shadow: 0 4px 20px var(--abrar-blue-glow);
 }
 
 .btn-primary:hover {
-  background: #0052CC;
+  background: #0070E0;
   transform: translateY(-2px);
 }
 
 .btn-primary:active { transform: scale(0.96); }
 
 /* ==========================================================================
-   TRILLION-DOLLAR FINTECH CARD ARCHITECTURE FOR 45+ ACCESSIBILITY
+   ABRARINPIXELS SIGNATURE INDIVIDUAL NET BALANCES CARDS
    ========================================================================== */
 
 .balance-card-grid {
@@ -556,11 +570,11 @@ body::before {
   background: var(--bg-secondary);
   border: 1.5px solid var(--border-light);
   border-radius: var(--radius-md);
-  padding: 20px 24px;
+  padding: 22px 26px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 18px;
+  gap: 20px;
   transition: all var(--transition-smooth);
   box-shadow: var(--shadow-sm);
   position: relative;
@@ -576,33 +590,33 @@ body::before {
   transition: background var(--transition-smooth);
 }
 
-.fintech-balance-card.is-positive::before { background: var(--apple-green); }
-.fintech-balance-card.is-negative::before { background: var(--apple-red); }
-.fintech-balance-card.is-neutral::before { background: var(--apple-blue); }
+.fintech-balance-card.is-positive::before { background: var(--abrar-green); }
+.fintech-balance-card.is-negative::before { background: var(--abrar-red); }
+.fintech-balance-card.is-neutral::before { background: var(--abrar-blue); }
 
 .fintech-balance-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
-  border-color: rgba(0, 102, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .fintech-left {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
 }
 
 .fintech-avatar-ring {
-  width: 50px;
-  height: 50px; /* Big Readable Avatars */
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   color: #ffffff;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.14);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
   flex-shrink: 0;
 }
 
@@ -613,14 +627,14 @@ body::before {
 }
 
 .fintech-name {
-  font-size: 1.15rem; /* Large Bold Name */
+  font-size: 1.2rem;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   color: var(--text-primary);
 }
 
 .fintech-subtext {
-  font-size: 0.92rem; /* Large Readable Subtext */
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--text-secondary);
   font-feature-settings: "tnum";
@@ -637,30 +651,32 @@ body::before {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 18px; /* Large Touch Badge */
+  padding: 9px 20px;
   border-radius: var(--radius-pill);
-  font-size: 1rem; /* Large Readable Status Amount */
+  font-size: 1.05rem;
   font-weight: 800;
   letter-spacing: -0.01em;
   font-feature-settings: "tnum";
 }
 
 .fintech-badge.positive {
-  background: var(--apple-green-light);
-  color: var(--apple-green);
-  border: 1px solid rgba(36, 179, 75, 0.3);
+  background: var(--abrar-green-light);
+  color: var(--abrar-green);
+  border: 1px solid rgba(48, 209, 88, 0.35);
+  box-shadow: 0 0 14px var(--abrar-green-glow);
 }
 
 .fintech-badge.negative {
-  background: var(--apple-red-light);
-  color: var(--apple-red);
-  border: 1px solid rgba(230, 53, 43, 0.3);
+  background: var(--abrar-red-light);
+  color: var(--abrar-red);
+  border: 1px solid rgba(255, 69, 58, 0.35);
+  box-shadow: 0 0 14px var(--abrar-red-glow);
 }
 
 .fintech-badge.neutral {
-  background: var(--apple-blue-light);
-  color: var(--apple-blue);
-  border: 1px solid rgba(0, 102, 255, 0.3);
+  background: var(--abrar-blue-light);
+  color: var(--abrar-blue);
+  border: 1px solid rgba(10, 132, 255, 0.35);
 }
 
 .fintech-dot {
@@ -671,7 +687,7 @@ body::before {
   box-shadow: 0 0 10px currentColor;
 }
 
-/* Settlements List (Who Owes Whom) */
+/* Settlements List */
 .settlement-list {
   display: flex;
   flex-direction: column;
@@ -682,25 +698,25 @@ body::before {
   background: var(--bg-secondary);
   border: 1.5px solid var(--border-light);
   border-radius: var(--radius-md);
-  padding: 20px;
+  padding: 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 18px;
   transition: all var(--transition-smooth);
   box-shadow: var(--shadow-sm);
 }
 
 .settlement-card:hover {
   box-shadow: var(--shadow-md);
-  border-color: rgba(0, 102, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
 }
 
 .debt-flow {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   flex: 1;
 }
 
@@ -709,19 +725,19 @@ body::before {
   align-items: center;
   gap: 10px;
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
 }
 
 .flow-arrow {
-  color: var(--apple-blue);
-  font-size: 1.25rem;
+  color: var(--abrar-blue);
+  font-size: 1.3rem;
   font-weight: 800;
 }
 
 .flow-amount {
   font-weight: 800;
-  color: var(--apple-orange);
-  font-size: 1.2rem;
+  color: var(--abrar-orange);
+  font-size: 1.25rem;
   font-feature-settings: "tnum";
 }
 
@@ -732,12 +748,12 @@ body::before {
 }
 
 .btn-action-sm {
-  background: var(--apple-green-light);
-  color: var(--apple-green);
-  border: 1.5px solid rgba(36, 179, 75, 0.35);
-  padding: 10px 18px;
+  background: var(--abrar-green-light);
+  color: var(--abrar-green);
+  border: 1.5px solid rgba(48, 209, 88, 0.35);
+  padding: 10px 20px;
   border-radius: var(--radius-pill);
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   font-weight: 800;
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -747,28 +763,29 @@ body::before {
 }
 
 .btn-action-sm:hover {
-  background: var(--apple-green);
+  background: var(--abrar-green);
   color: white;
+  box-shadow: 0 4px 16px var(--abrar-green-glow);
 }
 
 .btn-settle-mark {
-  background: var(--apple-blue-light);
-  color: var(--apple-blue);
-  border: 1.5px solid rgba(0, 102, 255, 0.35);
-  padding: 10px 16px;
+  background: var(--abrar-blue-light);
+  color: var(--abrar-blue);
+  border: 1.5px solid rgba(10, 132, 255, 0.35);
+  padding: 10px 18px;
   border-radius: var(--radius-pill);
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   font-weight: 800;
   cursor: pointer;
   transition: all var(--transition-fast);
 }
 
 .btn-settle-mark:hover {
-  background: var(--apple-blue);
+  background: var(--abrar-blue);
   color: white;
 }
 
-/* Expenses List */
+/* Expenses Log */
 .expenses-list {
   display: flex;
   flex-direction: column;
@@ -779,7 +796,7 @@ body::before {
   background: var(--bg-secondary);
   border: 1.5px solid var(--border-light);
   border-radius: var(--radius-md);
-  padding: 20px;
+  padding: 22px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -788,7 +805,7 @@ body::before {
 }
 
 .expense-card:hover {
-  border-color: var(--apple-blue);
+  border-color: var(--abrar-blue);
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
@@ -801,19 +818,19 @@ body::before {
 
 .expense-title {
   font-weight: 800;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: var(--text-primary);
 }
 
 .expense-subtitle {
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   color: var(--text-secondary);
   margin-top: 4px;
 }
 
 .expense-amount {
   font-weight: 800;
-  font-size: 1.4rem;
+  font-size: 1.45rem;
   color: var(--text-primary);
   font-feature-settings: "tnum";
 }
@@ -826,8 +843,8 @@ body::before {
 }
 
 .tag {
-  font-size: 0.85rem;
-  padding: 6px 12px;
+  font-size: 0.88rem;
+  padding: 6px 14px;
   border-radius: 10px;
   font-weight: 800;
   background: var(--bg-tertiary);
@@ -835,8 +852,8 @@ body::before {
 }
 
 .tag.split-type {
-  background: var(--apple-blue-light);
-  color: var(--apple-blue);
+  background: var(--abrar-blue-light);
+  color: var(--abrar-blue);
 }
 
 .expense-actions {
@@ -859,24 +876,24 @@ body::before {
 }
 
 .btn-ghost-sm:hover {
-  color: var(--apple-blue);
-  border-color: var(--apple-blue);
-  background: var(--apple-blue-light);
+  color: var(--abrar-blue);
+  border-color: var(--abrar-blue);
+  background: var(--abrar-blue-light);
 }
 
 .btn-ghost-sm.delete:hover {
-  color: var(--apple-red);
-  border-color: var(--apple-red);
-  background: var(--apple-red-light);
+  color: var(--abrar-red);
+  border-color: var(--abrar-red);
+  background: var(--abrar-red-light);
 }
 
 /* Modals & Bottom Sheets */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   z-index: 1000;
   display: flex;
   align-items: flex-end;
@@ -898,13 +915,13 @@ body::before {
   max-width: 660px;
   max-height: 92vh;
   overflow-y: auto;
-  padding: 28px;
+  padding: 30px;
   box-shadow: var(--shadow-sheet);
   transform: translateY(100%);
-  transition: transform var(--transition-bounce);
+  transition: transform var(--transition-spring);
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 24px;
 }
 
 @media (min-width: 640px) {
@@ -930,29 +947,29 @@ body::before {
 }
 
 .modal-title {
-  font-size: 1.5rem; /* Big Title */
+  font-size: 1.55rem;
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
 }
 
 .btn-close {
   background: var(--bg-tertiary);
   border: none;
   color: var(--text-secondary);
-  width: 38px;
-  height: 38px; /* Big Touch Targets */
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   cursor: pointer;
   transition: all var(--transition-fast);
 }
 
 .btn-close:hover { background: var(--border-light); color: var(--text-primary); }
 
-/* Form Elements */
+/* Form Components */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -960,7 +977,7 @@ body::before {
 }
 
 .form-label {
-  font-size: 1rem; /* Large Form Label */
+  font-size: 1.02rem;
   font-weight: 800;
   color: var(--text-secondary);
 }
@@ -976,7 +993,7 @@ body::before {
   border: 1.5px solid var(--border-light);
   border-radius: 14px;
   padding: 14px 8px;
-  font-size: 0.95rem; /* Larger Split Button Font */
+  font-size: 0.98rem;
   font-weight: 800;
   color: var(--text-secondary);
   cursor: pointer;
@@ -985,10 +1002,10 @@ body::before {
 }
 
 .split-type-btn.active {
-  background: var(--apple-blue-light);
-  border-color: var(--apple-blue);
-  color: var(--apple-blue);
-  box-shadow: 0 2px 10px rgba(0, 102, 255, 0.25);
+  background: var(--abrar-blue-light);
+  border-color: var(--abrar-blue);
+  color: var(--abrar-blue);
+  box-shadow: 0 0 14px var(--abrar-blue-glow);
 }
 
 .split-people-list {
@@ -1034,14 +1051,14 @@ body::before {
 .split-person-checkbox {
   width: 26px;
   height: 26px;
-  accent-color: var(--apple-blue);
+  accent-color: var(--abrar-blue);
   cursor: pointer;
 }
 
 /* Toast Notifications */
 .toast-container {
   position: fixed;
-  bottom: 28px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2000;
@@ -1052,22 +1069,23 @@ body::before {
 }
 
 .toast {
-  background: rgba(20, 20, 26, 0.96);
+  background: rgba(18, 18, 24, 0.96);
   color: white;
-  padding: 14px 26px;
+  padding: 14px 28px;
   border-radius: var(--radius-pill);
   font-size: 1.05rem;
   font-weight: 800;
   box-shadow: var(--shadow-lg);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   display: flex;
   align-items: center;
   gap: 10px;
-  animation: toastIn 0.35s var(--transition-bounce);
+  border: 1px solid var(--border-light);
+  animation: toastIn 0.35s var(--transition-spring);
 }
 
-/* Writeup Content */
+/* Writeup */
 .writeup-body {
   font-size: 1.05rem;
   line-height: 1.65;
@@ -1079,7 +1097,7 @@ body::before {
 
 .writeup-section {
   background: var(--bg-primary);
-  padding: 20px;
+  padding: 22px;
   border-radius: var(--radius-md);
   border: 1.5px solid var(--border-light);
 }
@@ -1087,7 +1105,7 @@ body::before {
 .writeup-h3 {
   font-size: 1.15rem;
   font-weight: 800;
-  color: var(--apple-blue);
+  color: var(--abrar-blue);
   margin-bottom: 10px;
 }
 
