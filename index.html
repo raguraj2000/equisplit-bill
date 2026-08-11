@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EquiSplit — World-Class Bill Splitting</title>
-  <meta name="description" content="Award-winning ultra-premium bill splitting app. Smart debt simplification, full edit controls, custom splits, and instant UPI WhatsApp payment requests.">
+  <title>EquiSplit — Easy & Clear Bill Splitting</title>
+  <meta name="description" content="High-accessibility ultra-clear bill splitting app. Smart debt simplification, full edit controls, large readable fonts, and instant UPI WhatsApp payment requests.">
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
     </div>
     <div class="header-actions">
       <button class="badge-btn" id="openWriteupBtn" title="View Design Assessment & AI Write-up">
-        <span>📄</span> Rationale
+        <span style="font-size:1.15rem;">📄</span> Rationale
       </button>
       <button class="btn-icon" id="themeToggleBtn" title="Toggle Light/Dark Theme">
         🌙
@@ -45,7 +45,7 @@
           <div class="hero-amount" id="totalSpentHero">₹0</div>
         </div>
         <button class="btn-primary" id="openAddExpenseBtn">
-          <span>+</span> Add Expense
+          <span style="font-size:1.4rem;">+</span> Add Expense
         </button>
       </div>
 
@@ -79,15 +79,15 @@
     <!-- Presets Bar -->
     <section class="presets-section">
       <div class="section-caption">
-        <span>Quick Scenarios</span>
-        <span style="font-size:0.72rem; opacity:0.8;">Tap to test</span>
+        <span>Quick Presets</span>
+        <span style="font-size:0.8rem; opacity:0.85;">Tap to load</span>
       </div>
       <div class="presets-scroll">
         <button class="preset-chip" data-preset="goa">
-          <span>🏖️</span> Goa Weekend Trip
+          <span style="font-size:1.3rem;">🏖️</span> Goa Weekend Trip
         </button>
         <button class="preset-chip" data-preset="rent">
-          <span>🏠</span> Flat Rent & Bills
+          <span style="font-size:1.3rem;">🏠</span> Flat Rent & Bills
         </button>
       </div>
     </section>
@@ -96,7 +96,7 @@
     <section class="card-block">
       <div class="card-header-row">
         <div class="card-title">
-          <span>👥</span> Group Members
+          <span style="font-size:1.4rem;">👥</span> Group Members
         </div>
       </div>
       
@@ -120,7 +120,7 @@
     <!-- TAB 1: Net Balances Summary -->
     <section id="summaryTabContent" class="card-block">
       <div class="card-title" style="margin-bottom:8px;">
-        <span>📊</span> Individual Net Balances
+        <span style="font-size:1.4rem;">📊</span> Individual Net Balances
       </div>
       <div id="balancesList" class="settlement-list">
         <!-- Rendered by app.js -->
@@ -131,7 +131,7 @@
     <section id="expensesTabContent" class="card-block" style="display:none;">
       <div class="card-header-row" style="margin-bottom:12px;">
         <div class="card-title">
-          <span>🧾</span> Expense Log
+          <span style="font-size:1.4rem;">🧾</span> Expense Log
         </div>
       </div>
       <div id="expensesList" class="expenses-list">
@@ -143,8 +143,8 @@
     <section id="settleTabContent" class="card-block" style="display:none;">
       <div class="card-header-row" style="margin-bottom:8px;">
         <div>
-          <div class="card-title">⚡ Smart Settlement Matrix</div>
-          <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:2px;">
+          <div class="card-title"><span style="font-size:1.4rem;">⚡</span> Smart Settlement Matrix</div>
+          <div style="font-size:0.92rem; color:var(--text-secondary); margin-top:4px;">
             Optimized via minimum cash flow algorithm. Click Settle to mark as paid.
           </div>
         </div>
@@ -165,13 +165,13 @@
         <button class="btn-close" id="closeExpenseModalBtn">✕</button>
       </div>
 
-      <form id="expenseForm" style="display:flex; flex-direction:column; gap:16px;">
+      <form id="expenseForm" style="display:flex; flex-direction:column; gap:18px;">
         <div class="form-group">
           <label class="form-label" for="expenseDesc">Description</label>
           <input type="text" id="expenseDesc" class="apple-input" placeholder="e.g. Resort Villa, Dinner & Drinks" required>
         </div>
 
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:14px;">
           <div class="form-group">
             <label class="form-label" for="expenseAmount">Amount</label>
             <input type="number" step="0.01" id="expenseAmount" class="apple-input" placeholder="0.00" required>
@@ -179,7 +179,7 @@
 
           <div class="form-group">
             <label class="form-label" for="expensePayer">Paid By</label>
-            <select id="expensePayer" class="apple-input" style="appearance:auto; font-weight:600;">
+            <select id="expensePayer" class="apple-input" style="appearance:auto; font-weight:700;">
               <!-- Dynamic options -->
             </select>
           </div>
@@ -199,7 +199,7 @@
           </div>
         </div>
 
-        <button type="submit" class="btn-primary" style="margin-top:8px;">
+        <button type="submit" class="btn-primary" style="margin-top:10px;">
           Save Expense
         </button>
       </form>
@@ -215,7 +215,7 @@
         <button class="btn-close" id="closeGroupModalBtn">✕</button>
       </div>
 
-      <form id="groupForm" style="display:flex; flex-direction:column; gap:16px;">
+      <form id="groupForm" style="display:flex; flex-direction:column; gap:18px;">
         <div class="form-group">
           <label class="form-label" for="groupNameInput">Group Title</label>
           <input type="text" id="groupNameInput" class="apple-input" placeholder="e.g. Goa Trip 2026" required>
@@ -223,7 +223,7 @@
 
         <div class="form-group">
           <label class="form-label" for="groupCurrencyInput">Currency Symbol</label>
-          <select id="groupCurrencyInput" class="apple-input" style="appearance:auto; font-weight:700;">
+          <select id="groupCurrencyInput" class="apple-input" style="appearance:auto; font-weight:800;">
             <option value="₹">₹ (INR - Indian Rupee)</option>
             <option value="$">$ (USD - US Dollar)</option>
             <option value="€">€ (EUR - Euro)</option>
@@ -231,7 +231,7 @@
           </select>
         </div>
 
-        <button type="submit" class="btn-primary" style="margin-top:8px;">
+        <button type="submit" class="btn-primary" style="margin-top:10px;">
           Save Group Settings
         </button>
       </form>
@@ -247,7 +247,7 @@
         <button class="btn-close" id="closeMemberModalBtn">✕</button>
       </div>
 
-      <form id="memberEditForm" style="display:flex; flex-direction:column; gap:16px;">
+      <form id="memberEditForm" style="display:flex; flex-direction:column; gap:18px;">
         <input type="hidden" id="editMemberOldName">
         <div class="form-group">
           <label class="form-label" for="editMemberNewName">Member Name</label>
@@ -263,7 +263,7 @@
 
   <!-- DESIGN RATIONALE MODAL -->
   <div class="modal-overlay" id="writeupModal">
-    <div class="modal-sheet" style="max-height:85vh;">
+    <div class="modal-sheet" style="max-height:88vh;">
       <div class="sheet-handle"></div>
       <div class="modal-header">
         <h2 class="modal-title">Design Assessment & AI Writeup</h2>
@@ -273,8 +273,8 @@
       <div class="writeup-body">
         <div class="writeup-section">
           <div class="writeup-h3">1. Built vs. Cut (Scoping & UX Judgment)</div>
-          <p><strong>Built:</strong> Instant zero-auth local state, greedy debt simplification (Min-Cash-Flow graph reduction), multi-split methods (Equal, Custom Exact, Percentage, Exclusions like "someone didn't eat"), 1-tap WhatsApp/UPI payment request formatting, member renaming, group settings editor, and custom presets.</p>
-          <p style="margin-top:6px;"><strong>Cut:</strong> OCR receipt scanning and multi-currency exchange rates. <em>Why?</em> For everyday Indian social spending, manual multi-currency adds clutter without solving the core pain: <em>awkward payment reminders and complex debt loops.</em></p>
+          <p><strong>Built:</strong> High-accessibility large typography, zero-auth local state, greedy debt simplification (Min-Cash-Flow graph reduction), multi-split methods (Equal, Custom Exact, Percentage, Exclusions like "someone didn't eat"), 1-tap WhatsApp/UPI payment request formatting, member renaming, group settings editor, and custom presets.</p>
+          <p style="margin-top:6px;"><strong>Cut:</strong> OCR receipt scanning and multi-currency exchange rates. <em>Why?</em> For everyday social spending, manual multi-currency adds clutter without solving the core pain: <em>awkward payment reminders and complex debt loops.</em></p>
         </div>
 
         <div class="writeup-section">
@@ -285,7 +285,7 @@
 
         <div class="writeup-section">
           <div class="writeup-h3">3. AI Tool Usage & Reflections</div>
-          <p><strong>Prompting & Direction:</strong> Guided AI to craft an Apple iOS design system with high-contrast typography, ambient mesh glows, zero framework bloat, and greedy debt graph reduction.</p>
+          <p><strong>Prompting & Direction:</strong> Guided AI to craft an accessible Apple design system with high-contrast typography, large touch targets, zero framework bloat, and greedy debt graph reduction.</p>
           <p style="margin-top:6px;"><strong>Caught & Fixed:</strong> Corrected floating-point rounding errors in multi-way split balances and ensured bottom-sheet modal animations felt natural on mobile viewports.</p>
         </div>
 
