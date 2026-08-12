@@ -1,0 +1,863 @@
+/* ==========================================================================
+   EquiSplit — Design System & Styles
+   Mobile-first, wrapping grid layout, no horizontal scroll.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ==========================================================================
+   CSS Custom Properties
+   ========================================================================== */
+:root {
+  --bg-app: #F5F3EF;
+  --bg-card: #FFFFFF;
+  --bg-input: #F9FAFB;
+  --bg-hover: #F3F4F6;
+
+  --primary: #4F46E5;
+  --primary-hover: #4338CA;
+  --primary-light: #EEF2FF;
+
+  --success: #059669;
+  --success-light: #D1FAE5;
+  --success-text: #065F46;
+
+  --danger: #DC2626;
+  --danger-light: #FEE2E2;
+  --danger-text: #991B1B;
+
+  --text-main: #111827;
+  --text-muted: #6B7280;
+  --text-inverse: #FFFFFF;
+
+  --border-color: #E5E7EB;
+  --border-focus: #4F46E5;
+
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-float: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease-out;
+  --touch-target: 44px;
+}
+
+/* ==========================================================================
+   Reset
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+/* ==========================================================================
+   App Layout — Mobile-first, centered on desktop
+   ========================================================================== */
+.app {
+  min-height: 100vh;
+  max-width: 520px;
+  margin: 0 auto;
+  background-color: var(--bg-app);
+  position: relative;
+}
+
+@media (min-width: 521px) {
+  .app {
+    box-shadow: var(--shadow-lg);
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+  }
+}
+
+.main {
+  padding: 16px;
+  padding-bottom: 100px; /* Space for FAB */
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ==========================================================================
+   Sticky Header
+   ========================================================================== */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.app-header h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   Group Header Card
+   ========================================================================== */
+.group-header {
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+
+.group-header h2 {
+  font-size: 1.4rem;
+  margin-right: 60px; /* space for edit btn */
+}
+
+.group-header .group-desc {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-top: 2px;
+}
+
+.group-header .group-meta {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.group-header .btn-edit-group {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  padding: 6px 10px;
+  border-radius: var(--radius-pill);
+  transition: all var(--transition-fast);
+}
+
+.group-header .btn-edit-group:hover {
+  background: var(--bg-hover);
+  color: var(--primary);
+}
+
+/* ==========================================================================
+   Section Titles
+   ========================================================================== */
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-main);
+}
+
+/* ==========================================================================
+   Balance Cards — WRAPPING GRID (not horizontal scroll)
+   BUG FIX: Changed from flex row with overflow-x to a CSS Grid that wraps.
+   All members are always visible without scrolling.
+   ========================================================================== */
+.balance-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+.balance-card {
+  background: var(--bg-card);
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.balance-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.balance-card.positive {
+  background: var(--success-light);
+  border-color: rgba(5, 150, 105, 0.2);
+}
+
+.balance-card.negative {
+  background: var(--danger-light);
+  border-color: rgba(220, 38, 38, 0.2);
+}
+
+.balance-card .avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.balance-card .name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.balance-card .amount {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.balance-card.positive .amount { color: var(--success-text); }
+.balance-card.negative .amount { color: var(--danger-text); }
+
+/* ==========================================================================
+   Settlements
+   ========================================================================== */
+.settlements {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.settlement-item {
+  background: var(--bg-card);
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow-sm);
+  font-size: 0.95rem;
+}
+
+.settlement-from, .settlement-to {
+  font-weight: 600;
+}
+
+.settlement-amount {
+  font-weight: 700;
+  color: var(--primary);
+  margin-left: auto;
+}
+
+.arrow {
+  color: var(--text-muted);
+}
+
+.settlement-empty {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 24px 16px;
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   Expenses Section Header
+   BUG FIX: Wrapped title + inline button in a flex container so they
+   sit side-by-side without overlap.
+   ========================================================================== */
+.expenses-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.expenses-header .section-title {
+  margin-bottom: 0;
+}
+
+.btn-inline-add {
+  width: auto !important;
+  padding: 6px 14px !important;
+  font-size: 0.85rem !important;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Expense List & Items
+   ========================================================================== */
+.expense-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.expense-item {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.expense-item:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.expense-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--bg-app);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.expense-info {
+  flex: 1;
+  min-width: 0; /* enables text truncation */
+}
+
+.expense-info .desc {
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.expense-info .meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.expense-amount {
+  font-weight: 700;
+  font-size: 1.05rem;
+  flex-shrink: 0;
+}
+
+.expense-actions {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+.btn-primary, .btn-secondary, .btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
+  min-height: var(--touch-target);
+  width: 100%;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--text-inverse);
+  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--bg-input);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-hover);
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  border-radius: var(--radius-pill);
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.btn-icon:hover {
+  background: var(--bg-hover);
+  color: var(--text-main);
+}
+
+.btn-icon.danger:hover {
+  background: var(--danger-light);
+  color: var(--danger);
+}
+
+/* FAB — Floating Action Button
+   BUG FIX: Positioned relative to viewport on mobile (bottom-right),
+   and properly offset on desktop to stay inside the centered container */
+.btn-add-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  color: var(--text-inverse);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-float);
+  transition: transform var(--transition-normal), background var(--transition-fast);
+  z-index: 20;
+}
+
+/* On desktop, position FAB inside the 520px container */
+@media (min-width: 521px) {
+  .btn-add-fab {
+    /* Center at (50% + half-container-width - padding) */
+    right: calc(50% - 260px + 16px);
+  }
+}
+
+.btn-add-fab:hover {
+  background: var(--primary-hover);
+  transform: scale(1.08);
+}
+
+/* ==========================================================================
+   Modal / Bottom Sheet
+   
+   BUG FIX: Restructured to use:
+   - .modal-header (fixed, non-scrolling)
+   - .modal-body (scrollable content area)
+   - .form-actions (sticky at bottom)
+   
+   This prevents double scrollbars and horizontal overflow.
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 50;
+  display: flex;
+  align-items: flex-end;    /* Bottom sheet on mobile */
+  justify-content: center;
+}
+
+@media (min-width: 521px) {
+  .modal-overlay {
+    align-items: center;     /* Centered card on desktop */
+  }
+}
+
+.modal-sheet {
+  background: var(--bg-card);
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  box-shadow: var(--shadow-float);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;          /* No horizontal or vertical scroll on outer shell */
+}
+
+@media (min-width: 521px) {
+  .modal-sheet {
+    border-radius: var(--radius-lg);
+    max-height: 85vh;
+  }
+}
+
+/* Drag handle — cosmetic indicator for bottom sheet on mobile */
+.modal-handle {
+  width: 40px;
+  height: 4px;
+  background: var(--border-color);
+  border-radius: var(--radius-pill);
+  margin: 10px auto 0;
+  flex-shrink: 0;
+}
+
+@media (min-width: 521px) {
+  .modal-handle { display: none; }
+}
+
+/* Modal header — fixed, never scrolls */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.modal-header h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.modal-header .close-btn {
+  width: 36px;
+  height: 36px;
+}
+
+/* Modal body — this is the ONLY scrollable area inside the modal */
+.modal-body {
+  overflow-y: auto;
+  overflow-x: hidden;        /* BUG FIX: prevents horizontal scrollbar */
+  padding: 20px;
+  flex: 1;
+}
+
+/* Form actions — sticky at bottom of modal body */
+.form-actions {
+  display: flex;
+  gap: 12px;
+  padding-top: 20px;
+  margin-top: auto;
+}
+
+/* ==========================================================================
+   Form Elements
+   ========================================================================== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  font-size: 1rem;
+  color: var(--text-main);
+  transition: all var(--transition-fast);
+  min-height: var(--touch-target);
+  width: 100%;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--primary-light);
+  background: var(--bg-card);
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+}
+
+.form-row > * {
+  flex: 1;
+}
+
+@media (max-width: 360px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+/* ==========================================================================
+   Split Type Tabs (Segmented Control)
+   ========================================================================== */
+.split-type-tabs {
+  display: flex;
+  background: var(--bg-input);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+.split-type-tabs .tab {
+  flex: 1;
+  padding: 8px;
+  text-align: center;
+  border-radius: calc(var(--radius-md) - 4px);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.split-type-tabs .tab:hover {
+  color: var(--text-main);
+}
+
+.split-type-tabs .tab.active {
+  background: var(--bg-card);
+  color: var(--primary);
+  box-shadow: var(--shadow-sm);
+  font-weight: 600;
+}
+
+/* Split options container (checkboxes for exclude, inputs for exact) */
+.split-options {
+  background: var(--bg-input);
+  padding: 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.sub-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+  cursor: pointer;
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.checkbox-row label {
+  font-size: 0.95rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.amount-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.amount-row span {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.amount-row input {
+  width: 110px;
+  padding: 8px 10px;
+  text-align: right;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  font-size: 0.95rem;
+}
+
+.amount-row input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+/* ==========================================================================
+   Edit Group Modal — Member List & Add Member
+   ========================================================================== */
+
+/* BUG FIX: Add member input comes FIRST (above the list) */
+.add-member-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.add-member-row input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  font-size: 0.95rem;
+}
+
+.add-member-row input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.add-member-row .btn-primary {
+  width: auto;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+
+/* Member list rows */
+.member-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.member-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--bg-input);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+
+/* BUG FIX: Member name text was disappearing because .avatar was
+   set to flex and the span had no explicit styles. Now uses proper
+   flex: 1 to fill space. */
+.member-name-text {
+  flex: 1;
+  font-weight: 500;
+  font-size: 0.95rem;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.member-row .avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.member-row .remove-btn {
+  color: var(--text-muted);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.member-row .remove-btn:hover {
+  background: var(--danger-light);
+  color: var(--danger);
+}
+
+/* ==========================================================================
+   Empty State
+   ========================================================================== */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  text-align: center;
+  background: var(--bg-card);
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-lg);
+}
+
+.empty-state .empty-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+.empty-state p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+}
+
+.empty-state .btn-primary {
+  width: auto;
+}

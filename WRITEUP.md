@@ -1,49 +1,47 @@
-# EquiSplit — Design Assessment & Rationale
+# EquiSplit — Design Assessment Write-Up
 
-**Target Users:** 20-35 year olds in India splitting everyday social expenses (Goa trips, Friday dinners, rent & maid bills).  
-**Prototype Tech:** Vanilla HTML5, CSS3 (Apple iOS Design System), ES6 JS with local state persistence (`localStorage`).
-
----
-
-## 1. Scope: What Was Built vs. Cut (And Why)
-
-### What Was Built:
-- **Zero-Friction Local State:** Instant usage without login, signup, or server delays. Fully persists across reloads.
-- **Smart Debt Simplification Algorithm:** Greedy Graph Min-Cash-Flow reduction that consolidates multi-party debts into the absolute minimum number of direct transfers (e.g., 5 inter-person debts reduced to 2 direct settlements).
-- **Edge-Case Split Engine:**
-  - *Equal Split (÷)*
-  - *Exact Amount Split (₹)*
-  - *Percentage Split (%)*
-  - *Exclusion Split (🚫)*: Handles "someone didn't eat/drink" edge cases in 2 seconds without entering items.
-- **One-Tap WhatsApp & UPI Payment Reminders:** Pre-formats polite WhatsApp debt request messages with exact breakdown amounts and UPI settlement prompts.
-- **Apple iOS Design System:** Glassmorphism, dynamic Light/Dark mode, SF Pro system typography, spring-like tactile micro-interactions, responsive mobile bottom-sheets.
-- **Quick Test Presets:** "Goa Trip 2026" and "Flat Rent & Bills" for 1-click evaluator testing.
-
-### What Was Cut:
-- **OCR Receipt Scanning & Multi-Currency Conversion:**
-  - *Why:* For everyday Indian social groups, camera OCR is error-prone on standard restaurant bills and creates UX friction. Multi-currency adds cognitive overhead for domestic spending. Ruthlessly focused on solving **awkward payment reminders** and **complex debt loops**.
+**Candidate:** Raguraj  
+**Live URL:** [subtle-cassata-399394.netlify.app](http://subtle-cassata-399394.netlify.app)  
+**Tech Stack:** React (Vite) + Framer Motion + Vanilla CSS  
+**Target Users:** 20–35 year olds in India splitting everyday expenses
 
 ---
 
-## 2. Key Design Trade-Off & Decision
+## 1. What I Built vs. Cut — and Why
 
-### The Dilemma: Itemized Line-by-Line Checklist vs. Fast Exclusion Checkbox
-- **Exploration:** Considered forcing users to enter every item (e.g. 2 Pizzas, 4 Beers, 1 Salad) and check off who had what.
-- **Trade-Off & Decision:** Abandoned full itemized checklists in favor of **Exclusion Mode + Percentage Split**. In real-world Indian group outings, people find line-by-line item logging tedious on phones. An exclusion toggle ("Sneha didn't drink alcohol") solves 90% of real disputes in under 5 seconds with zero clutter.
+**Built:**
+- **Core bill splitting** with full CRUD (create, edit, delete expenses) — the primary user need.
+- **Three split modes** — Equal, Exclude ("someone didn't drink"), and Exact amounts — covering the real-world edge cases that cause group payment disputes.
+- **Greedy min-cash-flow settlements** — algorithmically reduces multi-person debts to the fewest possible direct transfers (e.g., 5 debts consolidated into 2 payments).
+- **Editable group** — rename group, change description, add/remove members at any time.
+- **Local persistence** — `localStorage` sync so data survives refreshes. Zero backend, zero login friction.
+- **Mobile-first bottom-sheet modals** with Framer Motion spring animations for a native-feel UX.
 
----
+**Cut (ruthless scoping):**
+- **Itemized receipt scanning / OCR** — error-prone on Indian restaurant bills and adds complexity without proportional value. The Exclude toggle solves 90% of "who ate what" disputes in 2 seconds.
+- **User authentication & backend** — not required for the core use case. Local-first means instant loading with zero onboarding friction.
+- **Multi-currency support** — domestic Indian expenses are the target. Adding currency conversion is cognitive overhead with no value for the primary persona.
 
-## 3. AI Tool Usage & Reflections
+## 2. One Design Decision I Went Back and Forth On
 
-- **Prompting & Direction:** Instructed AI to construct an Apple-grade, zero-dependency front-end architecture using native CSS custom properties, blur backdrops (`backdrop-filter`), and clean ES6 class-based state management.
-- **Where AI Got It Wrong / Hand Corrections:**
-  - *Floating-Point Edge Cases:* Initial AI code produced long floating-point strings like `₹333.3333333333333` in debt settlements. Added explicit `Math.round(val * 100) / 100` rounding guards.
-  - *Mobile Sheet UX:* Standard AI-generated modals filled the screen clumsily on mobile. Redesigned as an iOS-native drag-handle bottom sheet with fluid spring transitions.
+**The Split Type UX: Tabbed toggle vs. always-visible inputs.**
 
----
+I initially showed all split options (checkboxes + amount fields) on every expense form. This made the "Add Expense" flow feel heavy and intimidating on mobile — too many fields visible before the user even decides what kind of split they need.
 
-## 4. Future Roadmap (What I'd Build Next)
+**Decision:** I implemented a segmented tab toggle (`Equal | Exclude | Exact`). The form defaults to "Equal" — the most common case — keeping the form minimal (just description, amount, paid-by). Advanced options expand with a smooth spring animation only when the user explicitly chooses a different split type. This balances power with simplicity: 80% of expenses use equal split and see a clean 3-field form.
 
-1. **Native UPI Deep-Linking:** Direct `upi://pay?pa=receiver@upi&am=1500&tn=EquiSplit` integration to launch GPay/PhonePe directly.
-2. **On-Screen QR Code Modal:** Generate dynamic UPI QR codes for instant face-to-face scanning.
-3. **PWA (Progressive Web App):** Service Worker offline caching and add-to-home-screen installability.
+## 3. How I Used AI Tools
+
+- **Scaffolding & Architecture:** I directed the AI to set up a Vite + React project and write the foundational component structure (App, ExpenseModal, GroupModal).
+- **Debt Algorithm:** I prompted the AI to implement a greedy min-cash-flow settlement algorithm and then manually verified the math against edge cases (e.g., circular debts, single-person exclusions).
+- **Where AI Got It Wrong:**
+  - *Over-engineering:* The AI initially generated a complex SaaS dashboard with sidebars, hex dot matrices, and data visualizations — completely wrong for a simple mobile bill-splitting tool. I had to explicitly strip it back to a focused, single-column mobile layout.
+  - *Floating-point precision:* The AI produced raw JS division results like `₹333.3333333333`. I added explicit `Math.round(val * 100) / 100` rounding guards throughout the balance engine.
+  - *Form validation:* The AI's initial exact-split form didn't validate that custom amounts sum to the total. I added a real-time "₹X left" indicator and a submit-time validation alert.
+
+## 4. What I'd Do Next
+
+1. **UPI Deep Links** — Generate `upi://pay?pa=...&am=1500` URLs so users can settle directly via GPay/PhonePe with one tap.
+2. **Share Summary** — Format the debt breakdown as a WhatsApp-friendly message for sending to the group.
+3. **PWA Install** — Service Worker + Web App Manifest for offline-first usage and add-to-home-screen.
+4. **Expense Categories & Filters** — Visual breakdown of spending by category (food, transport, stay).

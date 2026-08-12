@@ -7,8 +7,10 @@ redirects = []
 [functions."*"]
 
 [build]
-publish = "C:\\New folder\\job assesment"
-publishOrigin = "default"
+publish = "C:\\New folder\\job assesment\\dist"
+publishOrigin = "ui"
+commandOrigin = "ui"
+command = "npm run build"
 
 [build.environment]
 
