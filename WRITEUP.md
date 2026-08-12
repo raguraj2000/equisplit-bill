@@ -1,7 +1,9 @@
 # EquiSplit — Design Assessment Write-Up
 
 **Candidate:** Raguraj  
-**Live URL:** [subtle-cassata-399394.netlify.app](http://subtle-cassata-399394.netlify.app)  
+**GitHub Repo:** [github.com/raguraj2000/equisplit-bill](https://github.com/raguraj2000/equisplit-bill)  
+**GitHub Pages Live:** [raguraj2000.github.io/equisplit-bill](https://raguraj2000.github.io/equisplit-bill/)  
+**Netlify Live:** [subtle-cassata-399394.netlify.app](http://subtle-cassata-399394.netlify.app)  
 **Tech Stack:** React (Vite) + Framer Motion + Vanilla CSS  
 **Target Users:** 20–35 year olds in India splitting everyday expenses
 
