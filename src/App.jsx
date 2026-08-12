@@ -4,6 +4,13 @@ import {
   Plus, X, Edit2, Trash2, Settings, Users, ArrowRight,
   Edit
 } from "lucide-react";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxContent,
+  ComboboxList,
+  ComboboxItem
+} from "@/components/ui/combobox";
 import "./index.css";
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -355,7 +362,7 @@ export default function App() {
               className="btn-primary btn-inline-add"
               onClick={() => { setEditingExpense(null); setModal("expense"); }}
             >
-              <Plus size={14} /> Add
+              <Plus size={24} /> Add
             </button>
           )}
         </div>
@@ -598,31 +605,56 @@ function ExpenseModal({ members, expense, onSave, onClose }) {
             </div>
           </div>
 
-          {/* Paid By & Category selects */}
+          {/* Paid By & Category Comboboxes */}
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="exp-paidby">Paid by</label>
-              <select
-                id="exp-paidby"
+              <label>Paid by</label>
+              <Combobox
+                items={members}
                 value={form.paidBy}
-                onChange={(e) => update("paidBy", e.target.value)}
+                onValueChange={(val) => val && update("paidBy", val)}
               >
-                {members.map((m) => (
-                  <option key={m} value={m}>{m}</option>
-                ))}
-              </select>
+                <ComboboxInput placeholder="Select member" />
+                <ComboboxContent>
+                  <ComboboxList>
+                    {(m) => (
+                      <ComboboxItem key={m} value={m}>
+                        {m}
+                      </ComboboxItem>
+                    )}
+                  </ComboboxList>
+                </ComboboxContent>
+              </Combobox>
             </div>
+
             <div className="form-group">
-              <label htmlFor="exp-category">Category</label>
-              <select
-                id="exp-category"
-                value={form.category}
-                onChange={(e) => update("category", e.target.value)}
-              >
-                {Object.entries(EXPENSE_ICONS).map(([key, icon]) => (
-                  <option key={key} value={key}>{icon} {key.charAt(0).toUpperCase() + key.slice(1)}</option>
-                ))}
-              </select>
+              <label>Category</label>
+              {(() => {
+                const categoryItems = Object.entries(EXPENSE_ICONS).map(([key, icon]) => ({
+                  value: key,
+                  label: `${icon} ${key.charAt(0).toUpperCase() + key.slice(1)}`
+                }));
+                const currentCat = categoryItems.find((c) => c.value === form.category);
+                return (
+                  <Combobox
+                    items={categoryItems}
+                    value={currentCat}
+                    itemToStringValue={(item) => item?.label || ""}
+                    onValueChange={(val) => val && update("category", val.value)}
+                  >
+                    <ComboboxInput placeholder="Select category" />
+                    <ComboboxContent>
+                      <ComboboxList>
+                        {(c) => (
+                          <ComboboxItem key={c.value} value={c}>
+                            {c.label}
+                          </ComboboxItem>
+                        )}
+                      </ComboboxList>
+                    </ComboboxContent>
+                  </Combobox>
+                );
+              })()}
             </div>
           </div>
 
