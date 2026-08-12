@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import {
-  Plus, X, Edit2, Trash2, Settings, Users, ArrowRight
+  Plus, X, Edit2, Trash2, Settings, Users, ArrowRight,
+  Edit
 } from "lucide-react";
 import "./index.css";
 
@@ -268,7 +269,7 @@ export default function App() {
           onClick={() => setModal("group")}
           aria-label="Edit group settings"
         >
-          <Settings size={20} />
+          <Settings size={24} />
         </button>
       </header>
 
@@ -284,7 +285,7 @@ export default function App() {
             </p>
           </div>
           <button className="btn-edit-group" onClick={() => setModal("group")}>
-            <Edit2 size={14} /> Edit
+            <Edit size={24} /> 
           </button>
         </motion.div>
 
@@ -588,8 +589,7 @@ function ExpenseModal({ members, expense, onSave, onClose }) {
               <input
                 id="exp-amount"
                 type="number"
-                step="0.01"
-                min="0.01"
+               
                 value={form.amount}
                 onChange={(e) => update("amount", e.target.value)}
                 placeholder="0"
